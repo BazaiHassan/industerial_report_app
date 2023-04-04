@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/reportFragment"
+        android:icon="@drawable/ic_report"
+        android:title="گزارش"/>
+    <item
+        android:id="@+id/searchFragment"
+        android:icon="@drawable/ic_search"
+        android:title="جستجو"/>
+    <item
+        android:id="@+id/notifyFragment"
+        android:icon="@drawable/ic_notification"
+        android:title="اعلان"/>
+    <item
+        android:id="@+id/userFragment"
+        android:icon="@drawable/ic_user"
+        android:title="کاربر"/>
+</menu>
