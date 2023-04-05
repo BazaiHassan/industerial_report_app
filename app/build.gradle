@@ -103,4 +103,7 @@ dependencies {
     // Koin for Jetpack Compose
     implementation "io.insert-koin:koin-androidx-compose:3.1.1"
 
+    // ExpandableFab
+    implementation 'com.nambimobile.widgets:expandable-fab:1.2.1'
+
 }
