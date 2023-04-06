@@ -9,7 +9,28 @@
         android:id="@+id/reportFragment"
         android:name="com.hbazai.industreport.pages.report_page.ReportFragment"
         android:label="fragment_report"
-        tools:layout="@layout/fragment_report" />
+        tools:layout="@layout/fragment_report" >
+        <action
+            android:id="@+id/action_reportFragment_to_permitFragment"
+            app:enterAnim="@anim/fragment_slide_in"
+            app:exitAnim="@anim/fragment_slide_out"
+            app:destination="@id/permitFragment" />
+        <action
+            android:id="@+id/action_reportFragment_to_dangerReportFragment"
+            app:enterAnim="@anim/fragment_slide_in"
+            app:exitAnim="@anim/fragment_slide_out"
+            app:destination="@id/dangerReportFragment" />
+        <action
+            android:id="@+id/action_reportFragment_to_dailyReportFragment"
+            app:enterAnim="@anim/fragment_slide_in"
+            app:exitAnim="@anim/fragment_slide_out"
+            app:destination="@id/dailyReportFragment" />
+        <action
+            android:id="@+id/action_reportFragment_to_chemicalReportFragment"
+            app:enterAnim="@anim/fragment_slide_in"
+            app:exitAnim="@anim/fragment_slide_out"
+            app:destination="@id/chemicalReportFragment" />
+    </fragment>
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.hbazai.industreport.pages.search_page.SearchFragment"
@@ -25,4 +46,40 @@
         android:name="com.hbazai.industreport.pages.notify_page.NotifyFragment"
         android:label="fragment_notify"
         tools:layout="@layout/fragment_notify" />
+    <fragment
+        android:id="@+id/chemicalReportFragment"
+        android:name="com.hbazai.industreport.pages.report_page.create_forms.ChemicalReportFragment"
+        android:label="fragment_chemical_report"
+        tools:layout="@layout/fragment_chemical_report" >
+        <action
+            android:id="@+id/action_chemicalReportFragment_to_reportFragment"
+            app:destination="@id/reportFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/dailyReportFragment"
+        android:name="com.hbazai.industreport.pages.report_page.create_forms.DailyReportFragment"
+        android:label="fragment_daily_report"
+        tools:layout="@layout/fragment_daily_report" >
+        <action
+            android:id="@+id/action_dailyReportFragment_to_reportFragment"
+            app:destination="@id/reportFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/dangerReportFragment"
+        android:name="com.hbazai.industreport.pages.report_page.create_forms.DangerReportFragment"
+        android:label="fragment_danger_report"
+        tools:layout="@layout/fragment_danger_report" >
+        <action
+            android:id="@+id/action_dangerReportFragment_to_reportFragment"
+            app:destination="@id/reportFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/permitFragment"
+        android:name="com.hbazai.industreport.pages.report_page.create_forms.PermitFragment"
+        android:label="fragment_permit"
+        tools:layout="@layout/fragment_permit" >
+        <action
+            android:id="@+id/action_permitFragment_to_reportFragment"
+            app:destination="@id/reportFragment" />
+    </fragment>
 </navigation>

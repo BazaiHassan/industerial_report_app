@@ -8,13 +8,57 @@
 
     <FrameLayout
         android:id="@+id/fragment_reports"
-        android:layout_gravity="bottom"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_96sdp"
+                android:layout_margin="@dimen/_4sdp"
+                android:background="@drawable/bg_filter_section"
+                android:layoutDirection="rtl"
+                android:padding="@dimen/_4sdp">
+
+                <TextView
+                    android:id="@+id/tv_type_report"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:text="نوع گزارش"
+                    android:textSize="@dimen/_12sdp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_type_report"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:src="@drawable/ic_time" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:text="مشاهده گزارش ها" />
+            </RelativeLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_reports"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </LinearLayout>
 
         <com.nambimobile.widgets.efab.ExpandableFabLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:backgroundTint="@color/material_on_background_disabled">
 
             <com.nambimobile.widgets.efab.ExpandableFab
                 android:layout_width="wrap_content"
