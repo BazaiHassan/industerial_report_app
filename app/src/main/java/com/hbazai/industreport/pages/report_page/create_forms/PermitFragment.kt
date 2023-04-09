@@ -8,11 +8,9 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.hbazai.industreport.R
-import com.hbazai.industreport.databinding.FragmentPermitBinding
 
 class PermitFragment : Fragment() {
 
-    private lateinit var binding: FragmentPermitBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -23,15 +21,14 @@ class PermitFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
-        binding = FragmentPermitBinding.inflate(layoutInflater, container, false)
-        return binding.root
+        return inflater.inflate(R.layout.fragment_permit, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.btnClose.setOnClickListener {
-            findNavController().navigate(R.id.action_permitFragment_to_reportFragment)
-        }
+//        btnClose.setOnClickListener {
+//            findNavController().navigate(R.id.action_permitFragment_to_reportFragment)
+//        }
     }
 
     override fun onStart() {

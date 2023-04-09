@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.IndustReport" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.IndustReport" parent="Theme.AppCompat.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/google_blue</item>
         <item name="colorPrimaryVariant">@color/google_green</item>

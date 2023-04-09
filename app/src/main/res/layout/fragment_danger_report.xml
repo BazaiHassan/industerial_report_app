@@ -45,7 +45,7 @@
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <LinearLayout
 
@@ -165,6 +165,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/google_red"
         android:background="@drawable/bg_btn"
         android:text="ارسال گزارش" />
 

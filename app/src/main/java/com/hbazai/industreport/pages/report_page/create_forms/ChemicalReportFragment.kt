@@ -8,13 +8,10 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.hbazai.industreport.R
-import com.hbazai.industreport.databinding.FragmentChemicalReportBinding
-import com.hbazai.industreport.databinding.FragmentDailyReportBinding
 
 
 class ChemicalReportFragment : Fragment() {
 
-    private lateinit var binding: FragmentChemicalReportBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -23,18 +20,19 @@ class ChemicalReportFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
+    ): View? {
         // Inflate the layout for this fragment
-        binding = FragmentChemicalReportBinding.inflate(inflater, container, false)
-        return binding.root
+
+        return inflater.inflate(R.layout.fragment_chemical_report, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.btnClose.setOnClickListener {
-            findNavController().navigate(R.id.action_chemicalReportFragment_to_reportFragment)
-        }
+//        btnClose.setOnClickListener {
+//            findNavController().navigate(R.id.action_chemicalReportFragment_to_reportFragment)
+//
+//        }
     }
 
     override fun onStart() {
