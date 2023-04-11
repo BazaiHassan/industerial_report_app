@@ -1,23 +1,23 @@
-package com.hbazai.industreport.pages.report_page.viewModel
+package com.hbazai.industreport.pages.report_page.viewModel.chemical
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.hbazai.industreport.pages.report_page.dataModel.daily.RequestCreateDailyReport
 import com.hbazai.industreport.pages.report_page.dataModel.ResponseCreateReport
-import com.hbazai.industreport.pages.report_page.repository.CreateDailyReportRepository
+import com.hbazai.industreport.pages.report_page.dataModel.chemical.RequestCreateChemicalReport
+import com.hbazai.industreport.pages.report_page.repository.chemical.CreateChemicalReportRepository
 import io.reactivex.SingleObserver
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
-class CreateDailyReportViewModel(private val createDailyReportRepository: CreateDailyReportRepository):ViewModel() {
-    val createReportLiveData = MutableLiveData<ResponseCreateReport>()
+class CreateChemicalReportViewModel(private val createChemicalReportRepository: CreateChemicalReportRepository):ViewModel() {
     private val compositeDisposable = CompositeDisposable()
+    val createChemicalReportLiveData = MutableLiveData<ResponseCreateReport>()
 
-    fun createReport(dailyReport: RequestCreateDailyReport){
-        createDailyReportRepository.createDailyReport(dailyReport).subscribeOn(Schedulers.io())
+    fun createChemicalReport(chemicalReport:RequestCreateChemicalReport){
+        createChemicalReportRepository.createChemicalReport(chemicalReport).subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : SingleObserver<ResponseCreateReport>{
                 override fun onSubscribe(d: Disposable) {
@@ -25,11 +25,11 @@ class CreateDailyReportViewModel(private val createDailyReportRepository: Create
                 }
 
                 override fun onSuccess(t: ResponseCreateReport) {
-                    createReportLiveData.value = t
+                    createChemicalReportLiveData.value = t
                 }
 
                 override fun onError(e: Throwable) {
-                    Log.d("TAG_ERROR_CREATE_DAILY_REPORT", "onError:${e.message} ")
+                    Log.d("TAG_ERROR_CREATE_CHEMICAL_REPORT", "onError:${e.message} ")
                 }
 
             })

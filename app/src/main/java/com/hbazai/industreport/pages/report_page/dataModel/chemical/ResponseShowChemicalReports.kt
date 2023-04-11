@@ -2,13 +2,13 @@ package com.hbazai.industreport.pages.report_page.dataModel.chemical
 
 import com.google.gson.annotations.SerializedName
 
-data class ResponseCreateChemicalReport(
+data class ResponseShowChemicalReport(
 
 	@field:SerializedName("ResponseCreateChemicalReport")
-	val responseCreateChemicalReport: List<ResponseCreateChemicalReportItem?>? = null
+	val responseCreateChemicalReport: List<ResponseShowChemicalReportItem?>? = null
 )
 
-data class ResponseCreateChemicalReportItem(
+data class ResponseShowChemicalReportItem(
 
 	@field:SerializedName("date")
 	val date: String? = null,

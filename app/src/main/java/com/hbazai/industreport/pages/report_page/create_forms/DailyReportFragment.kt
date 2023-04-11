@@ -14,7 +14,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.hbazai.industreport.R
 import com.hbazai.industreport.pages.report_page.ReportFragment
 import com.hbazai.industreport.pages.report_page.dataModel.daily.RequestCreateDailyReport
-import com.hbazai.industreport.pages.report_page.viewModel.CreateDailyReportViewModel
+import com.hbazai.industreport.pages.report_page.viewModel.daily.CreateDailyReportViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.time.LocalDate
 import java.time.LocalTime
@@ -81,7 +81,7 @@ class DailyReportFragment : Fragment() {
                 userId = etUserDailyReport.text.toString()
             )
 
-            createDailyReportViewModel.createReport(dailyReportBody)
+            createDailyReportViewModel.createDailyReport(dailyReportBody)
 
             createDailyReportViewModel.createReportLiveData.observe(viewLifecycleOwner){
                 if (it != null){

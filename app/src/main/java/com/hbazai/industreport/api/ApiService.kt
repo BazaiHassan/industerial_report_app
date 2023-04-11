@@ -3,7 +3,7 @@ package com.hbazai.industreport.api
 import com.hbazai.industreport.pages.report_page.dataModel.daily.RequestCreateDailyReport
 import com.hbazai.industreport.pages.report_page.dataModel.ResponseCreateReport
 import com.hbazai.industreport.pages.report_page.dataModel.chemical.RequestCreateChemicalReport
-import com.hbazai.industreport.pages.report_page.dataModel.chemical.ResponseCreateChemicalReportItem
+import com.hbazai.industreport.pages.report_page.dataModel.chemical.ResponseShowChemicalReportItem
 import com.hbazai.industreport.pages.report_page.dataModel.daily.ResponseShowReportsItem
 import com.hbazai.industreport.pages.report_page.dataModel.permit.RequestCreatePermitReport
 import com.hbazai.industreport.pages.report_page.dataModel.permit.ResponseCreatePermitReportItem
@@ -31,7 +31,7 @@ interface ApiService {
 
     // Chemical Report API
     @GET("reports/show_chemical_reports.php")
-    fun showChemicalReports():Single<List<ResponseCreateChemicalReportItem>>
+    fun showChemicalReports():Single<List<ResponseShowChemicalReportItem>>
 
     @POST("reports/create_chemical_report.php")
     fun createChemicalReport(@Body chemicalReport: RequestCreateChemicalReport):Single<ResponseCreateReport>
