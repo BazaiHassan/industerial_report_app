@@ -3,8 +3,7 @@ package com.hbazai.industreport.pages.report_page.viewModel
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.hbazai.industreport.pages.report_page.dataModel.ResponseShowReports
-import com.hbazai.industreport.pages.report_page.dataModel.ResponseShowReportsItem
+import com.hbazai.industreport.pages.report_page.dataModel.daily.ResponseShowReportsItem
 import com.hbazai.industreport.pages.report_page.repository.ShowReportsRepository
 import io.reactivex.SingleObserver
 import io.reactivex.android.schedulers.AndroidSchedulers

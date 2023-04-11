@@ -4,9 +4,7 @@ import android.app.Application
 import com.hbazai.industreport.api.ApiService
 import com.hbazai.industreport.api.retrofitApi
 import com.hbazai.industreport.pages.report_page.adapter.ReportAdapter
-import com.hbazai.industreport.pages.report_page.dataModel.ResponseShowReports
-import com.hbazai.industreport.pages.report_page.dataSource.RemoteCreateDailyReportDataSource
-import com.hbazai.industreport.pages.report_page.dataSource.RemoteShowReportDataSource
+import com.hbazai.industreport.pages.report_page.dataSource.daily.RemoteCreateDailyReportDataSource
 import com.hbazai.industreport.pages.report_page.repository.CreateDailyReportRepository
 import com.hbazai.industreport.pages.report_page.repository.ImplCreateDailyReportRepository
 import com.hbazai.industreport.pages.report_page.repository.ImplShowReportRepository
@@ -17,7 +15,6 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.startKoin
 import org.koin.dsl.module
-import org.koin.dsl.single
 
 class App : Application() {
 
@@ -31,7 +28,9 @@ class App : Application() {
             viewModel { ShowReportsViewModel(get()) }
             factory { ReportAdapter() }
 
-            factory<CreateDailyReportRepository> { ImplCreateDailyReportRepository(RemoteCreateDailyReportDataSource(get())) }
+            factory<CreateDailyReportRepository> { ImplCreateDailyReportRepository(
+                RemoteCreateDailyReportDataSource(get())
+            ) }
             viewModel { CreateDailyReportViewModel(get()) }
         }
 

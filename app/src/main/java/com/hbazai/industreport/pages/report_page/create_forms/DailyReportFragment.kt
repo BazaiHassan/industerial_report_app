@@ -10,14 +10,10 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.fragment.app.commit
-import androidx.navigation.fragment.findNavController
-import com.google.android.material.bottomnavigation.BottomNavigationMenuView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.hbazai.industreport.R
 import com.hbazai.industreport.pages.report_page.ReportFragment
-import com.hbazai.industreport.pages.report_page.dataModel.RequestCreateDailyReport
-import com.hbazai.industreport.pages.report_page.dataModel.ResponseShowReportsItem
+import com.hbazai.industreport.pages.report_page.dataModel.daily.RequestCreateDailyReport
 import com.hbazai.industreport.pages.report_page.viewModel.CreateDailyReportViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.time.LocalDate

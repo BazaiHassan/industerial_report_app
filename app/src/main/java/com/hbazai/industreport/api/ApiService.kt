@@ -1,31 +1,57 @@
 package com.hbazai.industreport.api
 
-import androidx.core.view.accessibility.AccessibilityEventCompat.ContentChangeType
-import com.hbazai.industreport.pages.report_page.dataModel.RequestCreateDailyReport
+import com.hbazai.industreport.pages.report_page.dataModel.daily.RequestCreateDailyReport
 import com.hbazai.industreport.pages.report_page.dataModel.ResponseCreateReport
-import com.hbazai.industreport.pages.report_page.dataModel.ResponseShowReports
-import com.hbazai.industreport.pages.report_page.dataModel.ResponseShowReportsItem
+import com.hbazai.industreport.pages.report_page.dataModel.chemical.RequestCreateChemicalReport
+import com.hbazai.industreport.pages.report_page.dataModel.chemical.ResponseCreateChemicalReportItem
+import com.hbazai.industreport.pages.report_page.dataModel.daily.ResponseShowReportsItem
+import com.hbazai.industreport.pages.report_page.dataModel.permit.RequestCreatePermitReport
+import com.hbazai.industreport.pages.report_page.dataModel.permit.ResponseCreatePermitReportItem
+import com.hbazai.industreport.pages.report_page.dataModel.risk.RequestCreateRiskReport
+import com.hbazai.industreport.pages.report_page.dataModel.risk.ResponseCreateRiskReportItem
 import com.hbazai.industreport.utils.Constants.Companion.BASE_URL
 import com.hbazai.industreport.utils.TokenContainer
 import io.reactivex.Single
 import okhttp3.OkHttpClient
-import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
-import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.POST
 
 interface ApiService {
 
-    // Here we must send request based on date and type
+    // Daily Report API
     @GET("reports/show_daily_reports.php")
     fun showDailyReports():Single<List<ResponseShowReportsItem>>
 
     @POST("reports/create_daily_report.php")
     fun createDailyReport(@Body dailyReport: RequestCreateDailyReport):Single<ResponseCreateReport>
+
+    // Chemical Report API
+    @GET("reports/show_chemical_reports.php")
+    fun showChemicalReports():Single<List<ResponseCreateChemicalReportItem>>
+
+    @POST("reports/create_chemical_report.php")
+    fun createChemicalReport(@Body chemicalReport: RequestCreateChemicalReport):Single<ResponseCreateReport>
+
+    // Risk Report API
+    @GET("reports/show_risk_reports.php")
+    fun showRiskReports():Single<List<ResponseCreateRiskReportItem>>
+
+    @POST("reports/create_risk_report.php")
+    fun createRiskReport(@Body riskReport: RequestCreateRiskReport):Single<ResponseCreateReport>
+
+    // Permit Report API
+    @GET("reports/show_permit_reports.php")
+    fun showPermitReports():Single<List<ResponseCreatePermitReportItem>>
+
+    @POST("reports/create_permit_report.php")
+    fun createPermitReport(@Body permitReport: RequestCreatePermitReport):Single<ResponseCreateReport>
+
+
+
 }
 
 

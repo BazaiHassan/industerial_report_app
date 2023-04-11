@@ -1,14 +1,8 @@
-package com.hbazai.industreport.pages.report_page.dataModel
+package com.hbazai.industreport.pages.report_page.dataModel.risk
 
 import com.google.gson.annotations.SerializedName
 
-data class ResponseShowReports(
-
-	@field:SerializedName("ResponseShowReports")
-	val responseShowReports: List<ResponseShowReportsItem?>? = null
-)
-
-data class ResponseShowReportsItem(
+data class RequestCreateRiskReport(
 
 	@field:SerializedName("date")
 	val date: String? = null,
@@ -24,9 +18,6 @@ data class ResponseShowReportsItem(
 
 	@field:SerializedName("instrument_tag")
 	val instrumentTag: String? = null,
-
-	@field:SerializedName("id")
-	val id: Int? = null,
 
 	@field:SerializedName("user_token")
 	val userToken: String? = null,

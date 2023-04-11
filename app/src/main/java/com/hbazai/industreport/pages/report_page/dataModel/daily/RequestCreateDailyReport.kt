@@ -1,4 +1,4 @@
-package com.hbazai.industreport.pages.report_page.dataModel
+package com.hbazai.industreport.pages.report_page.dataModel.daily
 
 import com.google.gson.annotations.SerializedName
 
