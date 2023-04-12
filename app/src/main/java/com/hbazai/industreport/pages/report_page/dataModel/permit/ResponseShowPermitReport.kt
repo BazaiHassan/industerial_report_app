@@ -2,13 +2,13 @@ package com.hbazai.industreport.pages.report_page.dataModel.permit
 
 import com.google.gson.annotations.SerializedName
 
-data class ResponseCreatePermitReport(
+data class ResponseShowPermitReport(
 
 	@field:SerializedName("ResponseCreatePermitReport")
-	val responseCreatePermitReport: List<ResponseCreatePermitReportItem?>? = null
+	val responseShowPermitReport: List<ResponseShowPermitReportItem?>? = null
 )
 
-data class ResponseCreatePermitReportItem(
+data class ResponseShowPermitReportItem(
 
 	@field:SerializedName("date")
 	val date: String? = null,

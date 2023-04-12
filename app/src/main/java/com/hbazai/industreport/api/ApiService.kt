@@ -6,7 +6,7 @@ import com.hbazai.industreport.pages.report_page.dataModel.chemical.RequestCreat
 import com.hbazai.industreport.pages.report_page.dataModel.chemical.ResponseShowChemicalReportItem
 import com.hbazai.industreport.pages.report_page.dataModel.daily.ResponseShowReportsItem
 import com.hbazai.industreport.pages.report_page.dataModel.permit.RequestCreatePermitReport
-import com.hbazai.industreport.pages.report_page.dataModel.permit.ResponseCreatePermitReportItem
+import com.hbazai.industreport.pages.report_page.dataModel.permit.ResponseShowPermitReportItem
 import com.hbazai.industreport.pages.report_page.dataModel.risk.RequestCreateRiskReport
 import com.hbazai.industreport.pages.report_page.dataModel.risk.ResponseShowRiskReportItem
 import com.hbazai.industreport.utils.Constants.Companion.BASE_URL
@@ -45,7 +45,7 @@ interface ApiService {
 
     // Permit Report API
     @GET("reports/show_permit_reports.php")
-    fun showPermitReports():Single<List<ResponseCreatePermitReportItem>>
+    fun showPermitReports():Single<List<ResponseShowPermitReportItem>>
 
     @POST("reports/create_permit_report.php")
     fun createPermitReport(@Body permitReport: RequestCreatePermitReport):Single<ResponseCreateReport>

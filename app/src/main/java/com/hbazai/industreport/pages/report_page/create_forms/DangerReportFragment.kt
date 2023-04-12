@@ -28,6 +28,9 @@ class DangerReportFragment : Fragment() {
     private lateinit var etUserRiskReport: EditText
     private lateinit var tvRiskDateTime: TextView
 
+    private lateinit var pbSubmitForm:ProgressBar
+
+
     private val createRiskReportViewModel:CreateRiskReportViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,6 +59,9 @@ class DangerReportFragment : Fragment() {
         tvRiskDateTime = view.findViewById(R.id.tv_risk_date_time)
         etUserRiskReport = view.findViewById(R.id.et_user_risk_report)
 
+        pbSubmitForm = view.findViewById(R.id.pb_submit_form)
+
+
         tvRiskDateTime.text = "${LocalDate.now()} ${LocalTime.now()}"
 
         btnClose.setOnClickListener {
@@ -64,6 +70,10 @@ class DangerReportFragment : Fragment() {
         }
 
         btnSubmitRiskReport.setOnClickListener {
+
+            btnSubmitRiskReport.visibility = View.GONE
+            pbSubmitForm.visibility = View.VISIBLE
+
             val riskReportBody = RequestCreateRiskReport(
                 date = LocalDate.now().toString(),
                 image = "Link to image",
@@ -82,6 +92,8 @@ class DangerReportFragment : Fragment() {
             createRiskReportViewModel.createRiskReportLiveData.observe(viewLifecycleOwner){
                 if (it != null){
                     Toast.makeText(requireContext(),it.message, Toast.LENGTH_SHORT).show()
+                    btnSubmitRiskReport.visibility = View.VISIBLE
+                    pbSubmitForm.visibility = View.GONE
                 }
             }
         }

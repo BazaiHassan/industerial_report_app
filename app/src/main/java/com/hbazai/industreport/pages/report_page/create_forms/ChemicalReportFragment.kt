@@ -29,6 +29,8 @@ class ChemicalReportFragment : Fragment() {
     private lateinit var tvTypeChemicalReport: TextView
     private lateinit var tvChemicalDateTime: TextView
 
+    private lateinit var pbSubmitReport:ProgressBar
+
     private val createChemicalReportViewModel:CreateChemicalReportViewModel by viewModel()
 
     override fun onCreateView(
@@ -55,7 +57,13 @@ class ChemicalReportFragment : Fragment() {
 
         tvChemicalDateTime.text = "${LocalDate.now()} ${LocalTime.now()}"
 
+        pbSubmitReport = view.findViewById(R.id.pb_submit_form)
+
         btnSubmitChemicalReport.setOnClickListener {
+
+            btnSubmitChemicalReport.visibility = View.GONE
+            pbSubmitReport.visibility = View.VISIBLE
+
             val chemicalReportBody = RequestCreateChemicalReport(
                 date = LocalDate.now().toString(),
                 image = "Link to image",
@@ -74,6 +82,8 @@ class ChemicalReportFragment : Fragment() {
             createChemicalReportViewModel.createChemicalReportLiveData.observe(viewLifecycleOwner){
                 if (it != null){
                     Toast.makeText(requireContext(),it.message, Toast.LENGTH_SHORT).show()
+                    btnSubmitChemicalReport.visibility = View.VISIBLE
+                    pbSubmitReport.visibility = View.GONE
                 }
             }
         }

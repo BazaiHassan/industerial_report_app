@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:layoutDirection="rtl"
     android:padding="@dimen/_4sdp"
-    tools:context=".pages.report_page.create_forms.PermitFragment">
+    tools:context=".pages.report_page.create_forms.PermitReportFragment">
 
 
     <LinearLayout
@@ -22,23 +22,24 @@
             android:padding="@dimen/_4sdp">
 
             <ImageView
-                android:background="@drawable/bg_btn"
-                android:id="@+id/btn_close"
+                android:id="@+id/btn_close_permit"
                 android:layout_width="@dimen/_24sdp"
                 android:layout_height="@dimen/_24sdp"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="@dimen/_8sdp"
                 android:layout_marginTop="@dimen/_8sdp"
+                android:background="@drawable/bg_btn"
                 android:src="@drawable/ic_close" />
 
             <TextView
+                android:id="@+id/permit_report_type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:textColor="@color/white"
                 android:text="گزارش مجوز کار"
+                android:textColor="@color/white"
                 android:textSize="@dimen/_18sdp"
                 android:textStyle="bold" />
         </RelativeLayout>
@@ -67,13 +68,14 @@
                         android:layout_centerVertical="true"
                         android:src="@drawable/ic_user" />
 
-                    <TextView
+                    <EditText
+                        android:id="@+id/et_user_permit_report"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginStart="@dimen/_8sdp"
                         android:layout_toEndOf="@+id/user_icon"
-                        android:text="نام کاربری تولید کننده گزارش" />
+                        android:hint="نام کاربری تولید کننده گزارش" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -91,25 +93,39 @@
                         android:src="@drawable/ic_time" />
 
                     <TextView
+                        android:id="@+id/tv_permit_date_time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginStart="@dimen/_8sdp"
                         android:layout_toEndOf="@+id/time_icon"
-                        android:text="چهارشنبه 25 فروردین 1402 ساعت 20:45" />
+                        android:text="تاریخ ثبت" />
                 </RelativeLayout>
 
                 <EditText
+                    android:id="@+id/et_title_permit_report"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_32sdp"
                     android:layout_margin="@dimen/_4sdp"
                     android:background="@color/text_stroke"
-                    android:hint="عنوان گزارش"
+                    android:hint="عنوان مجوزکار"
                     android:lines="1"
                     android:padding="@dimen/_4sdp"
                     android:textSize="@dimen/_16sdp" />
 
                 <EditText
+                    android:id="@+id/et_number_permit_report"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_32sdp"
+                    android:layout_margin="@dimen/_4sdp"
+                    android:background="@color/text_stroke"
+                    android:hint="شماره مجوزکار"
+                    android:lines="1"
+                    android:padding="@dimen/_4sdp"
+                    android:textSize="@dimen/_16sdp" />
+
+                <EditText
+                    android:id="@+id/et_unit_permit_report"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_32sdp"
                     android:layout_margin="@dimen/_4sdp"
@@ -120,25 +136,45 @@
                     android:textSize="@dimen/_16sdp" />
 
                 <EditText
+                    android:id="@+id/et_description_permit_report"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_32sdp"
-                    android:layout_margin="@dimen/_4sdp"
-                    android:background="@color/text_stroke"
-                    android:hint="نام ماده شیمیایی"
-                    android:lines="1"
-                    android:padding="@dimen/_4sdp"
-                    android:textSize="@dimen/_16sdp" />
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_180sdp"
+                    android:layout_height="@dimen/_100sdp"
                     android:layout_margin="@dimen/_4sdp"
                     android:background="@color/text_stroke"
                     android:gravity="top"
-                    android:hint="توضیحات تکمیلی"
+                    android:hint="شرح مجوز کار"
                     android:inputType="text|textMultiLine"
                     android:padding="@dimen/_4sdp"
                     android:textSize="@dimen/_16sdp" />
+
+                <RadioGroup
+                    android:background="@drawable/bg_text"
+                    android:padding="@dimen/_4sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/permit_closed"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/_10sdp"
+                        android:text="بسته شد" />
+
+                    <RadioButton
+                        android:id="@+id/permit_continued"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/_10sdp"
+                        android:text="ادامه دارد" />
+
+                    <RadioButton
+                        android:id="@+id/permit_expired"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="باطل شد" />
+                </RadioGroup>
 
                 <ImageView
                     android:layout_width="@dimen/_64sdp"
@@ -150,8 +186,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/_4sdp"
                     android:layout_gravity="center_horizontal"
+                    android:layout_margin="@dimen/_4sdp"
                     android:layout_marginStart="@dimen/_8sdp"
                     android:text="اضافه کردن عکس" />
 
@@ -162,13 +198,21 @@
     </LinearLayout>
 
     <Button
+        android:id="@+id/btn_create_permit_report"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:backgroundTint="@color/google_green"
-        android:textColor="@color/white"
         android:background="@drawable/bg_btn"
-        android:text="ارسال گزارش" />
+        android:backgroundTint="@color/google_green"
+        android:text="ارسال گزارش"
+        android:textColor="@color/white" />
+    <ProgressBar
+        android:id="@+id/pb_submit_form"
+        android:visibility="gone"
+        android:layout_gravity="bottom|center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
 
 
 </FrameLayout>

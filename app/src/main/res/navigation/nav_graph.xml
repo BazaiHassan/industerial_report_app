@@ -75,7 +75,7 @@
     </fragment>
     <fragment
         android:id="@+id/permitFragment"
-        android:name="com.hbazai.industreport.pages.report_page.create_forms.PermitFragment"
+        android:name="com.hbazai.industreport.pages.report_page.create_forms.PermitReportFragment"
         android:label="fragment_permit"
         tools:layout="@layout/fragment_permit" >
         <action

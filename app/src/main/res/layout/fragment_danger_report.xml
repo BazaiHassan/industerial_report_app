@@ -177,6 +177,12 @@
         android:backgroundTint="@color/google_red"
         android:text="ارسال گزارش"
         android:textColor="@color/white" />
+    <ProgressBar
+        android:id="@+id/pb_submit_form"
+        android:visibility="gone"
+        android:layout_gravity="bottom|center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
 
 </FrameLayout>

@@ -8,24 +8,24 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.hbazai.industreport.R
-import com.hbazai.industreport.pages.report_page.dataModel.daily.ResponseShowReportsItem
+import com.hbazai.industreport.pages.report_page.dataModel.permit.ResponseShowPermitReportItem
 
-class ReportAdapter :
-    RecyclerView.Adapter<ReportAdapter.ReportViewHolder>() {
+class PermitReportAdapter :
+    RecyclerView.Adapter<PermitReportAdapter.ReportViewHolder>() {
 
     inner class ReportViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
-    private val differCallback = object : DiffUtil.ItemCallback<ResponseShowReportsItem>() {
+    private val differCallback = object : DiffUtil.ItemCallback<ResponseShowPermitReportItem>() {
         override fun areItemsTheSame(
-            oldItem: ResponseShowReportsItem,
-            newItem: ResponseShowReportsItem
+            oldItem: ResponseShowPermitReportItem,
+            newItem: ResponseShowPermitReportItem
         ): Boolean {
             return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(
-            oldItem: ResponseShowReportsItem,
-            newItem: ResponseShowReportsItem
+            oldItem: ResponseShowPermitReportItem,
+            newItem: ResponseShowPermitReportItem
         ): Boolean {
             return oldItem == newItem
         }
@@ -68,9 +68,9 @@ class ReportAdapter :
         return differ.currentList.size
     }
 
-    private var onItemClickListener: ((ResponseShowReportsItem) -> Unit)? = null
+    private var onItemClickListener: ((ResponseShowPermitReportItem) -> Unit)? = null
 
-    private fun setOnItemClickListener(listener: (ResponseShowReportsItem) -> Unit) {
+    private fun setOnItemClickListener(listener: (ResponseShowPermitReportItem) -> Unit) {
         onItemClickListener = listener
     }
 

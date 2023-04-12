@@ -5,13 +5,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.hbazai.industreport.R
 import com.hbazai.industreport.pages.report_page.create_forms.ChemicalReportFragment
 import com.hbazai.industreport.pages.report_page.create_forms.DailyReportFragment
 import com.hbazai.industreport.pages.report_page.create_forms.DangerReportFragment
+import com.hbazai.industreport.pages.report_page.create_forms.PermitReportFragment
 
 class ReportFragment : Fragment() {
 
@@ -63,6 +63,8 @@ class ReportFragment : Fragment() {
         }
 
         fabPermitReport.setOnClickListener {
+            val permitFragment = PermitReportFragment()
+            replaceFragment(permitFragment)
 
         }
 

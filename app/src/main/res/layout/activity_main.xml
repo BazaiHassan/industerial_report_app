@@ -25,7 +25,7 @@
         app:itemTextColor="@color/google_green"
         app:itemIconTint="@color/google_green"
         android:layoutDirection="rtl"
-        android:contextClickable="false"
+        app:labelVisibilityMode="labeled"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

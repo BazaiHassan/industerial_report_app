@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -31,6 +32,8 @@ class DailyReportFragment : Fragment() {
     private lateinit var etTitleDailyReport: EditText
     private lateinit var tvTypeDailyReport: TextView
     private lateinit var tvDateTime: TextView
+
+    private lateinit var pbSubmitReport:ProgressBar
 
     private val createDailyReportViewModel: CreateDailyReportViewModel by viewModel()
 
@@ -60,6 +63,8 @@ class DailyReportFragment : Fragment() {
         tvDateTime = view.findViewById(R.id.tv_date_time)
         etUserDailyReport = view.findViewById(R.id.et_user_daily_report)
 
+        pbSubmitReport = view.findViewById(R.id.pb_submit_form)
+
         tvDateTime.text = "${LocalDate.now()} ${LocalTime.now()}"
 
         btnClose.setOnClickListener {
@@ -68,6 +73,10 @@ class DailyReportFragment : Fragment() {
         }
 
         btnSubmitDailyReport.setOnClickListener {
+
+            btnSubmitDailyReport.visibility = View.GONE
+            pbSubmitReport.visibility = View.VISIBLE
+
             val dailyReportBody = RequestCreateDailyReport(
                 date = LocalDate.now().toString(),
                 image = "Link to image",
@@ -86,6 +95,8 @@ class DailyReportFragment : Fragment() {
             createDailyReportViewModel.createReportLiveData.observe(viewLifecycleOwner){
                 if (it != null){
                     Toast.makeText(requireContext(),it.message,Toast.LENGTH_SHORT).show()
+                    btnSubmitDailyReport.visibility = View.VISIBLE
+                    pbSubmitReport.visibility = View.GONE
                 }
             }
         }

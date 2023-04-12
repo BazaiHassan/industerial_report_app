@@ -9,5 +9,11 @@
         android:id="@+id/rv_risk_reports"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+    <ProgressBar
+        android:id="@+id/pb_show_reports"
+        android:visibility="gone"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
 </FrameLayout>

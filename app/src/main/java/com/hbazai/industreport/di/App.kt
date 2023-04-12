@@ -4,12 +4,15 @@ import android.app.Application
 import com.hbazai.industreport.api.ApiService
 import com.hbazai.industreport.api.retrofitApi
 import com.hbazai.industreport.pages.report_page.adapter.ChemicalReportAdapter
-import com.hbazai.industreport.pages.report_page.adapter.ReportAdapter
+import com.hbazai.industreport.pages.report_page.adapter.DailyReportAdapter
+import com.hbazai.industreport.pages.report_page.adapter.PermitReportAdapter
 import com.hbazai.industreport.pages.report_page.adapter.RiskReportAdapter
 import com.hbazai.industreport.pages.report_page.dataSource.chemical.RemoteCreateChemicalReportDataSource
 import com.hbazai.industreport.pages.report_page.dataSource.chemical.RemoteShowChemicalReportsDataSource
 import com.hbazai.industreport.pages.report_page.dataSource.daily.RemoteCreateDailyReportDataSource
 import com.hbazai.industreport.pages.report_page.dataSource.daily.RemoteShowDailyReportDataSource
+import com.hbazai.industreport.pages.report_page.dataSource.permit.RemoteCreatePermitReportDataSource
+import com.hbazai.industreport.pages.report_page.dataSource.permit.RemoteShowPermitReportsDataSource
 import com.hbazai.industreport.pages.report_page.dataSource.risk.RemoteCreateRiskReportDataSource
 import com.hbazai.industreport.pages.report_page.dataSource.risk.RemoteShowRiskReportsDataSource
 import com.hbazai.industreport.pages.report_page.repository.chemical.CreateChemicalReportRepository
@@ -20,6 +23,10 @@ import com.hbazai.industreport.pages.report_page.repository.daily.CreateDailyRep
 import com.hbazai.industreport.pages.report_page.repository.daily.ImplCreateDailyReportRepository
 import com.hbazai.industreport.pages.report_page.repository.daily.ImplShowDailyReportRepository
 import com.hbazai.industreport.pages.report_page.repository.daily.ShowDailyReportsRepository
+import com.hbazai.industreport.pages.report_page.repository.permit.CreatePermitReportRepository
+import com.hbazai.industreport.pages.report_page.repository.permit.ImplCreatePermitReportRepository
+import com.hbazai.industreport.pages.report_page.repository.permit.ImplShowPermitReportsRepository
+import com.hbazai.industreport.pages.report_page.repository.permit.ShowPermitReportRepository
 import com.hbazai.industreport.pages.report_page.repository.risk.CreateRiskReportRepository
 import com.hbazai.industreport.pages.report_page.repository.risk.ImplCreateRiskReportRepository
 import com.hbazai.industreport.pages.report_page.repository.risk.ImplShowRiskReportsRepository
@@ -28,6 +35,8 @@ import com.hbazai.industreport.pages.report_page.viewModel.chemical.CreateChemic
 import com.hbazai.industreport.pages.report_page.viewModel.chemical.ShowChemicalReportsViewModel
 import com.hbazai.industreport.pages.report_page.viewModel.daily.CreateDailyReportViewModel
 import com.hbazai.industreport.pages.report_page.viewModel.daily.ShowDailyReportsViewModel
+import com.hbazai.industreport.pages.report_page.viewModel.permit.CreatePermitReportViewModel
+import com.hbazai.industreport.pages.report_page.viewModel.permit.ShowPermitReportsViewModel
 import com.hbazai.industreport.pages.report_page.viewModel.risk.CreateRiskReportViewModel
 import com.hbazai.industreport.pages.report_page.viewModel.risk.ShowRiskReportsViewModel
 import org.koin.android.ext.koin.androidContext
@@ -46,7 +55,7 @@ class App : Application() {
             // Daily Report Instances
             factory<ShowDailyReportsRepository> { ImplShowDailyReportRepository(RemoteShowDailyReportDataSource(get())) }
             viewModel { ShowDailyReportsViewModel(get()) }
-            factory { ReportAdapter() }
+            factory { DailyReportAdapter() }
 
             factory<CreateDailyReportRepository> { ImplCreateDailyReportRepository(
                 RemoteCreateDailyReportDataSource(get())
@@ -68,6 +77,15 @@ class App : Application() {
             factory<ShowRiskReportsRepository> { ImplShowRiskReportsRepository(RemoteShowRiskReportsDataSource(get())) }
             viewModel { ShowRiskReportsViewModel(get()) }
             factory { RiskReportAdapter() }
+
+            // Permit Report Instances
+            factory<CreatePermitReportRepository> { ImplCreatePermitReportRepository(RemoteCreatePermitReportDataSource(get())) }
+            viewModel { CreatePermitReportViewModel(get()) }
+
+            factory<ShowPermitReportRepository> { ImplShowPermitReportsRepository(RemoteShowPermitReportsDataSource(get())) }
+            viewModel { ShowPermitReportsViewModel(get()) }
+            factory { PermitReportAdapter() }
+
         }
 
         startKoin {
