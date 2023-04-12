@@ -5,12 +5,30 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.hbazai.industreport.R
-
+import com.hbazai.industreport.pages.report_page.ReportFragment
+import com.hbazai.industreport.pages.report_page.dataModel.risk.RequestCreateRiskReport
+import com.hbazai.industreport.pages.report_page.viewModel.risk.CreateRiskReportViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.time.LocalDate
+import java.time.LocalTime
 
 
 class DangerReportFragment : Fragment() {
+
+    private lateinit var btnClose: ImageView
+    private lateinit var btnSubmitRiskReport: Button
+    private lateinit var etUnitRiskReport: EditText
+    private lateinit var etDescriptionRiskReport: EditText
+    private lateinit var etInstrumentRiskReport: EditText
+    private lateinit var etTitleRiskReport: EditText
+    private lateinit var tvTypeRiskReport: TextView
+    private lateinit var etUserRiskReport: EditText
+    private lateinit var tvRiskDateTime: TextView
+
+    private val createRiskReportViewModel:CreateRiskReportViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,15 +46,69 @@ class DangerReportFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        btnClose.setOnClickListener {
-//            findNavController().navigate(R.id.action_dangerReportFragment_to_reportFragment)
-//        }
+        btnClose = view.findViewById(R.id.btn_close_risk)
+        btnSubmitRiskReport = view.findViewById(R.id.btn_create_risk_report)
+        etUnitRiskReport = view.findViewById(R.id.et_unit_risk_report)
+        etDescriptionRiskReport = view.findViewById(R.id.et_description_risk_report)
+        etInstrumentRiskReport = view.findViewById(R.id.et_instrument_risk_report)
+        etTitleRiskReport = view.findViewById(R.id.et_title_risk_report)
+        tvTypeRiskReport = view.findViewById(R.id.risk_report_type)
+        tvRiskDateTime = view.findViewById(R.id.tv_risk_date_time)
+        etUserRiskReport = view.findViewById(R.id.et_user_risk_report)
+
+        tvRiskDateTime.text = "${LocalDate.now()} ${LocalTime.now()}"
+
+        btnClose.setOnClickListener {
+            val replaceFragment = ReportFragment()
+            replaceFragment(replaceFragment)
+        }
+
+        btnSubmitRiskReport.setOnClickListener {
+            val riskReportBody = RequestCreateRiskReport(
+                date = LocalDate.now().toString(),
+                image = "Link to image",
+                unit = etUnitRiskReport.text.toString(),
+                description = etDescriptionRiskReport.text.toString(),
+                instrumentTag = etInstrumentRiskReport.text.toString(),
+                userToken = "lsdbvcansvhbsicshaknmavesvdsv",
+                time = LocalTime.now().toString(),
+                title = etTitleRiskReport.text.toString(),
+                type = tvTypeRiskReport.text.toString(),
+                userId = etUserRiskReport.text.toString()
+            )
+
+            createRiskReportViewModel.createRiskReport(riskReportBody)
+
+            createRiskReportViewModel.createRiskReportLiveData.observe(viewLifecycleOwner){
+                if (it != null){
+                    Toast.makeText(requireContext(),it.message, Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+
+
+
+
     }
 
     override fun onStart() {
         super.onStart()
         val view = requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigationView)
         view.visibility = View.GONE
+    }
+
+    private fun replaceFragment(fragment: Fragment) {
+        val fragmentManager = parentFragmentManager
+        val fragmentTransaction = fragmentManager.beginTransaction()
+        // set custom animation for the fragment transition
+        fragmentTransaction.setCustomAnimations(
+            R.anim.slide_in,
+            R.anim.slide_out,
+            R.anim.slide_in,
+            R.anim.slide_out,
+        )
+        fragmentTransaction.replace(R.id.flFragment, fragment)
+        fragmentTransaction.commit()
     }
 
 }

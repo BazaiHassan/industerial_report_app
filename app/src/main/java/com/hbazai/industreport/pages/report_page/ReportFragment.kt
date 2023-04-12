@@ -11,6 +11,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.hbazai.industreport.R
 import com.hbazai.industreport.pages.report_page.create_forms.ChemicalReportFragment
 import com.hbazai.industreport.pages.report_page.create_forms.DailyReportFragment
+import com.hbazai.industreport.pages.report_page.create_forms.DangerReportFragment
 
 class ReportFragment : Fragment() {
 
@@ -57,7 +58,8 @@ class ReportFragment : Fragment() {
         }
 
         fabRiskReport.setOnClickListener {
-
+            val riskReportFragment = DangerReportFragment()
+            replaceFragment(riskReportFragment)
         }
 
         fabPermitReport.setOnClickListener {

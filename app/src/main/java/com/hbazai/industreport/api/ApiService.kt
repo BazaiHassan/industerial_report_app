@@ -8,7 +8,7 @@ import com.hbazai.industreport.pages.report_page.dataModel.daily.ResponseShowRep
 import com.hbazai.industreport.pages.report_page.dataModel.permit.RequestCreatePermitReport
 import com.hbazai.industreport.pages.report_page.dataModel.permit.ResponseCreatePermitReportItem
 import com.hbazai.industreport.pages.report_page.dataModel.risk.RequestCreateRiskReport
-import com.hbazai.industreport.pages.report_page.dataModel.risk.ResponseCreateRiskReportItem
+import com.hbazai.industreport.pages.report_page.dataModel.risk.ResponseShowRiskReportItem
 import com.hbazai.industreport.utils.Constants.Companion.BASE_URL
 import com.hbazai.industreport.utils.TokenContainer
 import io.reactivex.Single
@@ -38,7 +38,7 @@ interface ApiService {
 
     // Risk Report API
     @GET("reports/show_risk_reports.php")
-    fun showRiskReports():Single<List<ResponseCreateRiskReportItem>>
+    fun showRiskReports():Single<List<ResponseShowRiskReportItem>>
 
     @POST("reports/create_risk_report.php")
     fun createRiskReport(@Body riskReport: RequestCreateRiskReport):Single<ResponseCreateReport>

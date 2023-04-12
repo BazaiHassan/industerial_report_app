@@ -5,10 +5,13 @@ import com.hbazai.industreport.api.ApiService
 import com.hbazai.industreport.api.retrofitApi
 import com.hbazai.industreport.pages.report_page.adapter.ChemicalReportAdapter
 import com.hbazai.industreport.pages.report_page.adapter.ReportAdapter
+import com.hbazai.industreport.pages.report_page.adapter.RiskReportAdapter
 import com.hbazai.industreport.pages.report_page.dataSource.chemical.RemoteCreateChemicalReportDataSource
 import com.hbazai.industreport.pages.report_page.dataSource.chemical.RemoteShowChemicalReportsDataSource
 import com.hbazai.industreport.pages.report_page.dataSource.daily.RemoteCreateDailyReportDataSource
 import com.hbazai.industreport.pages.report_page.dataSource.daily.RemoteShowDailyReportDataSource
+import com.hbazai.industreport.pages.report_page.dataSource.risk.RemoteCreateRiskReportDataSource
+import com.hbazai.industreport.pages.report_page.dataSource.risk.RemoteShowRiskReportsDataSource
 import com.hbazai.industreport.pages.report_page.repository.chemical.CreateChemicalReportRepository
 import com.hbazai.industreport.pages.report_page.repository.chemical.ImplCreateChemicalReportRepository
 import com.hbazai.industreport.pages.report_page.repository.chemical.ImplShowChemicalReportsRepository
@@ -17,10 +20,16 @@ import com.hbazai.industreport.pages.report_page.repository.daily.CreateDailyRep
 import com.hbazai.industreport.pages.report_page.repository.daily.ImplCreateDailyReportRepository
 import com.hbazai.industreport.pages.report_page.repository.daily.ImplShowDailyReportRepository
 import com.hbazai.industreport.pages.report_page.repository.daily.ShowDailyReportsRepository
+import com.hbazai.industreport.pages.report_page.repository.risk.CreateRiskReportRepository
+import com.hbazai.industreport.pages.report_page.repository.risk.ImplCreateRiskReportRepository
+import com.hbazai.industreport.pages.report_page.repository.risk.ImplShowRiskReportsRepository
+import com.hbazai.industreport.pages.report_page.repository.risk.ShowRiskReportsRepository
 import com.hbazai.industreport.pages.report_page.viewModel.chemical.CreateChemicalReportViewModel
 import com.hbazai.industreport.pages.report_page.viewModel.chemical.ShowChemicalReportsViewModel
 import com.hbazai.industreport.pages.report_page.viewModel.daily.CreateDailyReportViewModel
 import com.hbazai.industreport.pages.report_page.viewModel.daily.ShowDailyReportsViewModel
+import com.hbazai.industreport.pages.report_page.viewModel.risk.CreateRiskReportViewModel
+import com.hbazai.industreport.pages.report_page.viewModel.risk.ShowRiskReportsViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.startKoin
@@ -51,6 +60,14 @@ class App : Application() {
             factory<ShowChemicalReportsRepository> { ImplShowChemicalReportsRepository(RemoteShowChemicalReportsDataSource(get())) }
             viewModel { ShowChemicalReportsViewModel(get()) }
             factory { ChemicalReportAdapter() }
+
+            // Risk Report Instances
+            factory<CreateRiskReportRepository> { ImplCreateRiskReportRepository(RemoteCreateRiskReportDataSource(get())) }
+            viewModel { CreateRiskReportViewModel(get()) }
+
+            factory<ShowRiskReportsRepository> { ImplShowRiskReportsRepository(RemoteShowRiskReportsDataSource(get())) }
+            viewModel { ShowRiskReportsViewModel(get()) }
+            factory { RiskReportAdapter() }
         }
 
         startKoin {

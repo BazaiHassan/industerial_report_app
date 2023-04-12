@@ -1,33 +1,31 @@
 package com.hbazai.industreport.pages.report_page.tabs
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.hbazai.industreport.R
+import com.hbazai.industreport.pages.report_page.adapter.ReportAdapter
+import com.hbazai.industreport.pages.report_page.adapter.RiskReportAdapter
+import com.hbazai.industreport.pages.report_page.viewModel.daily.ShowDailyReportsViewModel
+import com.hbazai.industreport.pages.report_page.viewModel.risk.ShowRiskReportsViewModel
+import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [TabRiskFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class TabRiskFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+
+    private val showReportsViewModel: ShowRiskReportsViewModel by viewModel()
+    private val reportAdapter : RiskReportAdapter by inject()
+    private lateinit var rvReports: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+
     }
 
     override fun onCreateView(
@@ -38,23 +36,21 @@ class TabRiskFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_tab_risk, container, false)
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment TabRiskFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            TabRiskFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        rvReports = view.findViewById(R.id.rv_risk_reports)
+
+        showReportsViewModel.showRiskReportsLiveData.observe(viewLifecycleOwner){
+            reportAdapter.differ.submitList(it)
+            rvReports.apply {
+                layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+                adapter = reportAdapter
+                Log.d("TAG_FRAGMENT_REPORT", "onViewCreated: $it")
             }
+        }
+
     }
+
+
 }
