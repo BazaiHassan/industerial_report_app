@@ -1,21 +1,43 @@
 package com.hbazai.industreport.pages.report_page.create_forms
 
+import android.app.Activity
+import android.content.ContentResolver
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.OpenableColumns
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.hbazai.industreport.R
 import com.hbazai.industreport.pages.report_page.ReportFragment
 import com.hbazai.industreport.pages.report_page.dataModel.permit.RequestCreatePermitReport
+import com.hbazai.industreport.pages.report_page.viewModel.UploadReportImageViewModel
 import com.hbazai.industreport.pages.report_page.viewModel.permit.CreatePermitReportViewModel
+import com.hbazai.industreport.utils.UploadRequestBody
+import com.hbazai.industreport.utils.getFileName
+import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileOutputStream
 import java.time.LocalDate
 import java.time.LocalTime
 
-class PermitReportFragment : Fragment() {
+class PermitReportFragment : Fragment(), UploadRequestBody.UploadCallback {
 
     private lateinit var btnClose: ImageView
     private lateinit var btnSubmitPermitReport: Button
@@ -26,18 +48,27 @@ class PermitReportFragment : Fragment() {
     private lateinit var tvTypePermitReport: TextView
     private lateinit var etUserPermitReport: EditText
     private lateinit var tvPermitDateTime: TextView
-    private lateinit var rbPermitClosed:RadioButton
-    private lateinit var rbPermitContinued:RadioButton
-    private lateinit var rbPermitExpired:RadioButton
+    private lateinit var rbPermitClosed: RadioButton
+    private lateinit var rbPermitContinued: RadioButton
+    private lateinit var rbPermitExpired: RadioButton
+    private lateinit var imgUploadPermit: ImageView
+    private lateinit var btnUploadReportImage: Button
 
-    private lateinit var pbSubmitForm:ProgressBar
+    private lateinit var pbSubmitForm: ProgressBar
+    private lateinit var pbUploadImagePermit: ProgressBar
 
-    private var permitStatus:String = "بسته شد"
+    private var permitStatus: String = "بسته شد"
 
-    private val createPermitReportViewModel:CreatePermitReportViewModel by viewModel()
+    private var selectedImageUri: Uri? = null
+
+    private var imageLink: String = "No Link"
+
+    private val createPermitReportViewModel: CreatePermitReportViewModel by viewModel()
+    private val uploadReportImageViewModel: UploadReportImageViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
 
     }
 
@@ -47,10 +78,12 @@ class PermitReportFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_permit, container, false)
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
 
         btnClose = view.findViewById(R.id.btn_close_permit)
         btnSubmitPermitReport = view.findViewById(R.id.btn_create_permit_report)
@@ -64,8 +97,58 @@ class PermitReportFragment : Fragment() {
         rbPermitClosed = view.findViewById(R.id.permit_closed)
         rbPermitContinued = view.findViewById(R.id.permit_continued)
         rbPermitExpired = view.findViewById(R.id.permit_expired)
+        btnUploadReportImage = view.findViewById(R.id.btn_image_permit_upload)
 
         pbSubmitForm = view.findViewById(R.id.pb_submit_form)
+        pbUploadImagePermit = view.findViewById(R.id.pb_upload_image_permit)
+
+        imgUploadPermit = view.findViewById(R.id.img_upload_permit)
+
+        imgUploadPermit.setOnClickListener {
+            ImagePicker.with(requireActivity())
+                .crop()
+                .galleryMimeTypes(  //Exclude gif images
+                    mimeTypes = arrayOf(
+                        "image/png",
+                        "image/jpg",
+                        "image/jpeg"
+                    )
+                )
+                .compress(1024)
+                .maxResultSize(1080, 1080)
+                .createIntent { intent ->
+                    startForProfileImageResult.launch(intent)
+                }
+        }
+
+
+        btnUploadReportImage.setOnClickListener {
+            btnUploadReportImage.visibility = View.GONE
+            pbUploadImagePermit.visibility = View.VISIBLE
+            uploadImage(requireView().context)
+
+            uploadReportImageViewModel.uploadReportImageLiveData.observe(viewLifecycleOwner) { responseImage ->
+                if (responseImage.status.toString() == "true") {
+                    Toast.makeText(requireContext(), responseImage.message, Toast.LENGTH_SHORT)
+                        .show()
+                    pbUploadImagePermit.visibility = View.GONE
+                    imageLink = responseImage.link.toString()
+                } else if (responseImage.status.toString() == "false") {
+                    Toast.makeText(requireContext(), "اشکال در بارگذاری", Toast.LENGTH_SHORT)
+                        .show()
+                    pbUploadImagePermit.visibility = View.GONE
+                    btnUploadReportImage.visibility = View.VISIBLE
+                } else {
+                    Toast.makeText(requireContext(), "خطای ناشناس", Toast.LENGTH_SHORT)
+                        .show()
+                    pbUploadImagePermit.visibility = View.GONE
+                    btnUploadReportImage.visibility = View.VISIBLE
+                }
+            }
+
+        }
+
+
 
         btnClose.setOnClickListener {
             val replaceFragment = ReportFragment()
@@ -91,7 +174,7 @@ class PermitReportFragment : Fragment() {
 
             val permitBody = RequestCreatePermitReport(
                 date = LocalDate.now().toString(),
-                image = "Link to image",
+                image = imageLink,
                 unit = etUnitPermitReport.text.toString(),
                 description = etDescriptionPermitReport.text.toString(),
                 instrumentTag = etPermitNumberReport.text.toString(),
@@ -105,9 +188,9 @@ class PermitReportFragment : Fragment() {
 
             createPermitReportViewModel.createPermitReport(permitBody)
 
-            createPermitReportViewModel.createPermitReportLiveData.observe(viewLifecycleOwner){
-                if (it != null){
-                    Toast.makeText(requireContext(),it.message, Toast.LENGTH_SHORT).show()
+            createPermitReportViewModel.createPermitReportLiveData.observe(viewLifecycleOwner) {
+                if (it != null) {
+                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
                     pbSubmitForm.visibility = View.GONE
                     btnSubmitPermitReport.visibility = View.VISIBLE
                 }
@@ -137,5 +220,45 @@ class PermitReportFragment : Fragment() {
         fragmentTransaction.commit()
     }
 
+    private val startForProfileImageResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+            val resultCode = result.resultCode
+            val data = result.data
+
+            if (resultCode == Activity.RESULT_OK) {
+                //Image Uri will not be null for RESULT_OK
+                val imageUri = data?.data
+                selectedImageUri = imageUri
+                imgUploadPermit.setImageURI(imageUri)
+                //btnUploadReportImage.visibility = View.VISIBLE
+
+            } else if (resultCode == ImagePicker.RESULT_ERROR) {
+                Toast.makeText(requireContext(), ImagePicker.getError(data), Toast.LENGTH_SHORT)
+                    .show()
+            } else {
+                Toast.makeText(requireContext(), "بیخیالش شدم", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+    private fun uploadImage(context: Context) {
+
+        val parcelFileDescriptor =
+            context.contentResolver.openFileDescriptor(selectedImageUri!!, "r", null) ?: return
+
+        val inputStream = FileInputStream(parcelFileDescriptor.fileDescriptor)
+        val file = File(context.cacheDir, context.contentResolver.getFileName(selectedImageUri!!))
+        val outputStream = FileOutputStream(file)
+        inputStream.copyTo(outputStream)
+        pbUploadImagePermit.progress = 0
+        val body = UploadRequestBody(file, "image", this)
+        uploadReportImageViewModel.uploadReportImage(
+            MultipartBody.Part.createFormData("image", file.name, body),
+            "json".toRequestBody("multipart/form-data".toMediaTypeOrNull())
+        )
+    }
+
+    override fun onProgressUpdate(percentage: Int) {
+        TODO("Not yet implemented")
+    }
 
 }

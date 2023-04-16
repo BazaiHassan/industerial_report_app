@@ -2,6 +2,7 @@ package com.hbazai.industreport.api
 
 import com.hbazai.industreport.pages.report_page.dataModel.daily.RequestCreateDailyReport
 import com.hbazai.industreport.pages.report_page.dataModel.ResponseCreateReport
+import com.hbazai.industreport.pages.report_page.dataModel.ResponseUploadImage
 import com.hbazai.industreport.pages.report_page.dataModel.chemical.RequestCreateChemicalReport
 import com.hbazai.industreport.pages.report_page.dataModel.chemical.ResponseShowChemicalReportItem
 import com.hbazai.industreport.pages.report_page.dataModel.daily.ResponseShowReportsItem
@@ -12,13 +13,17 @@ import com.hbazai.industreport.pages.report_page.dataModel.risk.ResponseShowRisk
 import com.hbazai.industreport.utils.Constants.Companion.BASE_URL
 import com.hbazai.industreport.utils.TokenContainer
 import io.reactivex.Single
+import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
+import okhttp3.RequestBody
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.Multipart
 import retrofit2.http.POST
+import retrofit2.http.Part
 
 interface ApiService {
 
@@ -49,6 +54,14 @@ interface ApiService {
 
     @POST("reports/create_permit_report.php")
     fun createPermitReport(@Body permitReport: RequestCreatePermitReport):Single<ResponseCreateReport>
+
+    // Upload Reports image
+    @Multipart
+    @POST("reports/upload_report_image.php")
+    fun uploadReportImage(
+        @Part sendImage: MultipartBody.Part,
+        @Part("description") description: RequestBody
+    ):Single<ResponseUploadImage>
 
 
 

@@ -67,9 +67,6 @@ class ReportFragment : Fragment() {
             replaceFragment(permitFragment)
 
         }
-
-
-
     }
 
     override fun onStart() {

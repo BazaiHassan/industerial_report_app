@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layoutDirection="rtl"
-    android:padding="@dimen/_4sdp"
     tools:context=".pages.report_page.create_forms.PermitReportFragment">
 
 
@@ -29,7 +28,6 @@
                 android:layout_centerVertical="true"
                 android:layout_marginStart="@dimen/_8sdp"
                 android:layout_marginTop="@dimen/_8sdp"
-                android:background="@drawable/bg_btn"
                 android:src="@drawable/ic_close" />
 
             <TextView
@@ -177,19 +175,30 @@
                 </RadioGroup>
 
                 <ImageView
+                    android:id="@+id/img_upload_permit"
                     android:layout_width="@dimen/_64sdp"
                     android:layout_height="@dimen/_64sdp"
                     android:layout_gravity="center_horizontal"
                     android:layout_margin="@dimen/_4sdp"
                     android:src="@drawable/ic_add_image" />
 
-                <TextView
+                <Button
+                    android:visibility="gone"
+                    android:id="@+id/btn_image_permit_upload"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_margin="@dimen/_4sdp"
                     android:layout_marginStart="@dimen/_8sdp"
-                    android:text="اضافه کردن عکس" />
+                    android:text="بارگذاری عکس" />
+                <ProgressBar
+                    android:id="@+id/pb_upload_image_permit"
+                    android:visibility="gone"
+                    android:layout_margin="@dimen/_4sdp"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"/>
 
             </LinearLayout>
 
@@ -203,6 +212,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:background="@drawable/bg_btn"
+        android:layout_margin="@dimen/_8sdp"
         android:backgroundTint="@color/google_green"
         android:text="ارسال گزارش"
         android:textColor="@color/white" />

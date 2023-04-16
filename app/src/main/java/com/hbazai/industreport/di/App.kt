@@ -7,6 +7,7 @@ import com.hbazai.industreport.pages.report_page.adapter.ChemicalReportAdapter
 import com.hbazai.industreport.pages.report_page.adapter.DailyReportAdapter
 import com.hbazai.industreport.pages.report_page.adapter.PermitReportAdapter
 import com.hbazai.industreport.pages.report_page.adapter.RiskReportAdapter
+import com.hbazai.industreport.pages.report_page.dataSource.RemoteUploadReportImageDataSource
 import com.hbazai.industreport.pages.report_page.dataSource.chemical.RemoteCreateChemicalReportDataSource
 import com.hbazai.industreport.pages.report_page.dataSource.chemical.RemoteShowChemicalReportsDataSource
 import com.hbazai.industreport.pages.report_page.dataSource.daily.RemoteCreateDailyReportDataSource
@@ -15,6 +16,8 @@ import com.hbazai.industreport.pages.report_page.dataSource.permit.RemoteCreateP
 import com.hbazai.industreport.pages.report_page.dataSource.permit.RemoteShowPermitReportsDataSource
 import com.hbazai.industreport.pages.report_page.dataSource.risk.RemoteCreateRiskReportDataSource
 import com.hbazai.industreport.pages.report_page.dataSource.risk.RemoteShowRiskReportsDataSource
+import com.hbazai.industreport.pages.report_page.repository.ImplUploadReportImageRepository
+import com.hbazai.industreport.pages.report_page.repository.UploadReportImageRepository
 import com.hbazai.industreport.pages.report_page.repository.chemical.CreateChemicalReportRepository
 import com.hbazai.industreport.pages.report_page.repository.chemical.ImplCreateChemicalReportRepository
 import com.hbazai.industreport.pages.report_page.repository.chemical.ImplShowChemicalReportsRepository
@@ -31,6 +34,7 @@ import com.hbazai.industreport.pages.report_page.repository.risk.CreateRiskRepor
 import com.hbazai.industreport.pages.report_page.repository.risk.ImplCreateRiskReportRepository
 import com.hbazai.industreport.pages.report_page.repository.risk.ImplShowRiskReportsRepository
 import com.hbazai.industreport.pages.report_page.repository.risk.ShowRiskReportsRepository
+import com.hbazai.industreport.pages.report_page.viewModel.UploadReportImageViewModel
 import com.hbazai.industreport.pages.report_page.viewModel.chemical.CreateChemicalReportViewModel
 import com.hbazai.industreport.pages.report_page.viewModel.chemical.ShowChemicalReportsViewModel
 import com.hbazai.industreport.pages.report_page.viewModel.daily.CreateDailyReportViewModel
@@ -85,6 +89,10 @@ class App : Application() {
             factory<ShowPermitReportRepository> { ImplShowPermitReportsRepository(RemoteShowPermitReportsDataSource(get())) }
             viewModel { ShowPermitReportsViewModel(get()) }
             factory { PermitReportAdapter() }
+
+            // Permit Image Uploading
+            factory<UploadReportImageRepository> { ImplUploadReportImageRepository(RemoteUploadReportImageDataSource(get())) }
+            viewModel {UploadReportImageViewModel(get())}
 
         }
 
