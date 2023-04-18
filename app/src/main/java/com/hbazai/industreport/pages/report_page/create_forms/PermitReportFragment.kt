@@ -1,12 +1,11 @@
 package com.hbazai.industreport.pages.report_page.create_forms
 
+import android.Manifest
 import android.app.Activity
-import android.content.ContentResolver
 import android.content.Context
-import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.provider.OpenableColumns
+import android.provider.MediaStore
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -23,13 +22,14 @@ import com.hbazai.industreport.pages.report_page.dataModel.permit.RequestCreateP
 import com.hbazai.industreport.pages.report_page.viewModel.UploadReportImageViewModel
 import com.hbazai.industreport.pages.report_page.viewModel.permit.CreatePermitReportViewModel
 import com.hbazai.industreport.utils.UploadRequestBody
-import com.hbazai.industreport.utils.getFileName
-import okhttp3.MediaType
+import com.karumi.dexter.Dexter
+import com.karumi.dexter.MultiplePermissionsReport
+import com.karumi.dexter.PermissionToken
+import com.karumi.dexter.listener.PermissionRequest
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
-import okhttp3.RequestBody.Companion.toRequestBody
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.File
 import java.io.FileInputStream
@@ -105,6 +105,32 @@ class PermitReportFragment : Fragment(), UploadRequestBody.UploadCallback {
         imgUploadPermit = view.findViewById(R.id.img_upload_permit)
 
         imgUploadPermit.setOnClickListener {
+            // Request both READ_EXTERNAL_STORAGE and CAMERA permissions
+            Dexter.withContext(context)
+                .withPermissions(
+                    Manifest.permission.READ_EXTERNAL_STORAGE,
+                    Manifest.permission.CAMERA
+                )
+                .withListener(object : MultiplePermissionsListener {
+                    override fun onPermissionsChecked(report: MultiplePermissionsReport?) {
+                        // Check if all permissions are granted
+                        if (report?.areAllPermissionsGranted() == true) {
+                            // Permissions are granted, do something here
+                        } else {
+                            // Permissions are not granted, handle the case here
+                        }
+                    }
+
+                    override fun onPermissionRationaleShouldBeShown(
+                        permissions: MutableList<PermissionRequest>?,
+                        token: PermissionToken?
+                    ) {
+                        // Show a rationale message to the user if needed
+                        token?.continuePermissionRequest()
+                    }
+                })
+                .check()
+
             ImagePicker.with(requireActivity())
                 .crop()
                 .galleryMimeTypes(  //Exclude gif images
@@ -228,9 +254,9 @@ class PermitReportFragment : Fragment(), UploadRequestBody.UploadCallback {
             if (resultCode == Activity.RESULT_OK) {
                 //Image Uri will not be null for RESULT_OK
                 val imageUri = data?.data
-                selectedImageUri = imageUri
+                selectedImageUri = data?.data
                 imgUploadPermit.setImageURI(imageUri)
-                //btnUploadReportImage.visibility = View.VISIBLE
+                btnUploadReportImage.visibility = View.VISIBLE
 
             } else if (resultCode == ImagePicker.RESULT_ERROR) {
                 Toast.makeText(requireContext(), ImagePicker.getError(data), Toast.LENGTH_SHORT)
@@ -242,20 +268,26 @@ class PermitReportFragment : Fragment(), UploadRequestBody.UploadCallback {
 
     private fun uploadImage(context: Context) {
 
-        val parcelFileDescriptor =
-            context.contentResolver.openFileDescriptor(selectedImageUri!!, "r", null) ?: return
+        val file = File(getRealPathFromURI(context, selectedImageUri ?: return))
+        val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
+        val body = MultipartBody.Part.createFormData("image", file.name, requestFile)
 
-        val inputStream = FileInputStream(parcelFileDescriptor.fileDescriptor)
-        val file = File(context.cacheDir, context.contentResolver.getFileName(selectedImageUri!!))
-        val outputStream = FileOutputStream(file)
-        inputStream.copyTo(outputStream)
         pbUploadImagePermit.progress = 0
-        val body = UploadRequestBody(file, "image", this)
-        uploadReportImageViewModel.uploadReportImage(
-            MultipartBody.Part.createFormData("image", file.name, body),
-            "json".toRequestBody("multipart/form-data".toMediaTypeOrNull())
-        )
+        uploadReportImageViewModel.uploadReportImage(body)
     }
+
+    private fun getRealPathFromURI(context: Context, uri: Uri): String {
+        val projection = arrayOf(MediaStore.Images.Media.DATA)
+        val cursor = context.contentResolver.query(uri, projection, null, null, null)
+        cursor?.use {
+            if (it.moveToFirst()) {
+                val columnIndex = it.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+                return it.getString(columnIndex)
+            }
+        }
+        return ""
+    }
+
 
     override fun onProgressUpdate(percentage: Int) {
         TODO("Not yet implemented")

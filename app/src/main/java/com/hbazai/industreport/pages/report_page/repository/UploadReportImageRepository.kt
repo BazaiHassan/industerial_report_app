@@ -6,6 +6,6 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 
 interface UploadReportImageRepository {
-    fun uploadReportImage(image : MultipartBody.Part, description: RequestBody): Single<ResponseUploadImage>
+    fun uploadReportImage(image : MultipartBody.Part): Single<ResponseUploadImage>
 
 }

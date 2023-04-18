@@ -3,6 +3,15 @@ package com.hbazai.industreport.di
 import android.app.Application
 import com.hbazai.industreport.api.ApiService
 import com.hbazai.industreport.api.retrofitApi
+import com.hbazai.industreport.pages.notify_page.adapter.NotificationAdapter
+import com.hbazai.industreport.pages.notify_page.viewModel.CreateNotificationViewModel
+import com.hbazai.industreport.pages.notify_page.dataSource.RemoteCreateNotificationDataSource
+import com.hbazai.industreport.pages.notify_page.dataSource.RemoteShowNotificationDataSource
+import com.hbazai.industreport.pages.notify_page.repository.CreateNotificationRepository
+import com.hbazai.industreport.pages.notify_page.repository.ImplCreateNotificationRepository
+import com.hbazai.industreport.pages.notify_page.repository.ImplShowNotificationRepository
+import com.hbazai.industreport.pages.notify_page.repository.ShowNotificationRepository
+import com.hbazai.industreport.pages.notify_page.viewModel.ShowNotificationViewModel
 import com.hbazai.industreport.pages.report_page.adapter.ChemicalReportAdapter
 import com.hbazai.industreport.pages.report_page.adapter.DailyReportAdapter
 import com.hbazai.industreport.pages.report_page.adapter.PermitReportAdapter
@@ -43,6 +52,11 @@ import com.hbazai.industreport.pages.report_page.viewModel.permit.CreatePermitRe
 import com.hbazai.industreport.pages.report_page.viewModel.permit.ShowPermitReportsViewModel
 import com.hbazai.industreport.pages.report_page.viewModel.risk.CreateRiskReportViewModel
 import com.hbazai.industreport.pages.report_page.viewModel.risk.ShowRiskReportsViewModel
+import com.hbazai.industreport.pages.search_page.adapter.SearchReportAdapter
+import com.hbazai.industreport.pages.search_page.dataSource.RemoteSearchReportsDataSource
+import com.hbazai.industreport.pages.search_page.repository.ImplSearchReportsRepository
+import com.hbazai.industreport.pages.search_page.repository.SearchReportsRepository
+import com.hbazai.industreport.pages.search_page.viewModel.SearchReportsViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.startKoin
@@ -93,6 +107,20 @@ class App : Application() {
             // Permit Image Uploading
             factory<UploadReportImageRepository> { ImplUploadReportImageRepository(RemoteUploadReportImageDataSource(get())) }
             viewModel {UploadReportImageViewModel(get())}
+
+            // Search Reports
+            factory<SearchReportsRepository> { ImplSearchReportsRepository(RemoteSearchReportsDataSource(get())) }
+            viewModel { SearchReportsViewModel(get()) }
+            factory { SearchReportAdapter() }
+
+            // Create Notification
+            factory<CreateNotificationRepository> { ImplCreateNotificationRepository(RemoteCreateNotificationDataSource(get())) }
+            viewModel { CreateNotificationViewModel(get()) }
+
+            // Show Notifications
+            factory<ShowNotificationRepository> { ImplShowNotificationRepository(RemoteShowNotificationDataSource(get())) }
+            viewModel { ShowNotificationViewModel(get()) }
+            factory { NotificationAdapter() }
 
         }
 

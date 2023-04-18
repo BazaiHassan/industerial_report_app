@@ -8,7 +8,7 @@ import okhttp3.RequestBody
 import java.io.File
 
 class RemoteUploadReportImageDataSource(private val apiService: ApiService):UploadReportImageDataSource {
-    override fun uploadReportImage(image: MultipartBody.Part, description:RequestBody): Single<ResponseUploadImage> {
-        return apiService.uploadReportImage(image, description)
+    override fun uploadReportImage(image: MultipartBody.Part): Single<ResponseUploadImage> {
+        return apiService.uploadReportImage(image)
     }
 }

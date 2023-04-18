@@ -10,6 +10,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 
@@ -17,8 +18,8 @@ class UploadReportImageViewModel(private val uploadReportImageRepository: Upload
 
     private val compositeDisposable = CompositeDisposable()
     val uploadReportImageLiveData = MutableLiveData<ResponseUploadImage>()
-    fun uploadReportImage(image:MultipartBody.Part, description:RequestBody){
-        uploadReportImageRepository.uploadReportImage(image, description).subscribeOn(Schedulers.io())
+    fun uploadReportImage(image:MultipartBody.Part){
+        uploadReportImageRepository.uploadReportImage(image).subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : SingleObserver<ResponseUploadImage>{
                 override fun onSubscribe(d: Disposable) {

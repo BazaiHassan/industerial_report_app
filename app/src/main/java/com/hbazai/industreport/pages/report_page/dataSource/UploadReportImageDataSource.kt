@@ -8,5 +8,5 @@ import java.io.File
 
 interface UploadReportImageDataSource {
 
-    fun uploadReportImage(image : MultipartBody.Part, description:RequestBody):Single<ResponseUploadImage>
+    fun uploadReportImage(image : MultipartBody.Part):Single<ResponseUploadImage>
 }

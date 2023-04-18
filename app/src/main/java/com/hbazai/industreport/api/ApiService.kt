@@ -1,5 +1,7 @@
 package com.hbazai.industreport.api
 
+import com.hbazai.industreport.pages.notify_page.dataModel.RequestCreateNotification
+import com.hbazai.industreport.pages.notify_page.dataModel.ResponseShowNotificationItem
 import com.hbazai.industreport.pages.report_page.dataModel.daily.RequestCreateDailyReport
 import com.hbazai.industreport.pages.report_page.dataModel.ResponseCreateReport
 import com.hbazai.industreport.pages.report_page.dataModel.ResponseUploadImage
@@ -10,6 +12,7 @@ import com.hbazai.industreport.pages.report_page.dataModel.permit.RequestCreateP
 import com.hbazai.industreport.pages.report_page.dataModel.permit.ResponseShowPermitReportItem
 import com.hbazai.industreport.pages.report_page.dataModel.risk.RequestCreateRiskReport
 import com.hbazai.industreport.pages.report_page.dataModel.risk.ResponseShowRiskReportItem
+import com.hbazai.industreport.pages.search_page.dataModel.ResponseSearch
 import com.hbazai.industreport.utils.Constants.Companion.BASE_URL
 import com.hbazai.industreport.utils.TokenContainer
 import io.reactivex.Single
@@ -19,11 +22,7 @@ import okhttp3.RequestBody
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.Multipart
-import retrofit2.http.POST
-import retrofit2.http.Part
+import retrofit2.http.*
 
 interface ApiService {
 
@@ -60,8 +59,27 @@ interface ApiService {
     @POST("reports/upload_report_image.php")
     fun uploadReportImage(
         @Part sendImage: MultipartBody.Part,
-        @Part("description") description: RequestBody
+
     ):Single<ResponseUploadImage>
+
+    // Search Reports
+    @GET("reports/search_report.php")
+    fun searchReports(
+        @Query("keyword") keyword: String,
+        @Query("start_date") startDate: String,
+        @Query("end_date") endDate: String
+    ):Single<List<ResponseSearch>>
+
+    // Create Notification
+    @POST("notifications/create_notification.php")
+    fun createNotification(
+        @Body requestCreateNotification: RequestCreateNotification
+    ):Single<ResponseCreateReport>
+
+
+    // Show Notification
+    @GET("notifications/show_notifications.php")
+    fun showNotifications():Single<List<ResponseShowNotificationItem>>
 
 
 

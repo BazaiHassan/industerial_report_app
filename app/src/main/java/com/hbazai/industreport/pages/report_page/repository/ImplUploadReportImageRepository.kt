@@ -8,9 +8,8 @@ import okhttp3.RequestBody
 
 class ImplUploadReportImageRepository(private val uploadReportImageDataSource: UploadReportImageDataSource):UploadReportImageRepository {
     override fun uploadReportImage(
-        image: MultipartBody.Part,
-        description: RequestBody
+        image: MultipartBody.Part
     ): Single<ResponseUploadImage> {
-        return uploadReportImageDataSource.uploadReportImage(image, description)
+        return uploadReportImageDataSource.uploadReportImage(image)
     }
 }
