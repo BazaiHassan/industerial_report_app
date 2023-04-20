@@ -57,6 +57,11 @@ import com.hbazai.industreport.pages.search_page.dataSource.RemoteSearchReportsD
 import com.hbazai.industreport.pages.search_page.repository.ImplSearchReportsRepository
 import com.hbazai.industreport.pages.search_page.repository.SearchReportsRepository
 import com.hbazai.industreport.pages.search_page.viewModel.SearchReportsViewModel
+import com.hbazai.industreport.pages.user_page.auth.dataSource.RemoteAuthDataSource
+import com.hbazai.industreport.pages.user_page.auth.repository.AuthRepository
+import com.hbazai.industreport.pages.user_page.auth.repository.ImplAuthRepository
+import com.hbazai.industreport.pages.user_page.auth.viewModel.CheckPhoneViewModel
+import com.hbazai.industreport.pages.user_page.auth.viewModel.GetTokenViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.startKoin
@@ -121,6 +126,11 @@ class App : Application() {
             factory<ShowNotificationRepository> { ImplShowNotificationRepository(RemoteShowNotificationDataSource(get())) }
             viewModel { ShowNotificationViewModel(get()) }
             factory { NotificationAdapter() }
+
+            // Auth User
+            factory<AuthRepository> { ImplAuthRepository(RemoteAuthDataSource(get())) }
+            viewModel { CheckPhoneViewModel(get()) }
+            viewModel { GetTokenViewModel(get()) }
 
         }
 

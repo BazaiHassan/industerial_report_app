@@ -13,6 +13,8 @@ import com.hbazai.industreport.pages.report_page.dataModel.permit.ResponseShowPe
 import com.hbazai.industreport.pages.report_page.dataModel.risk.RequestCreateRiskReport
 import com.hbazai.industreport.pages.report_page.dataModel.risk.ResponseShowRiskReportItem
 import com.hbazai.industreport.pages.search_page.dataModel.ResponseSearch
+import com.hbazai.industreport.pages.user_page.auth.dataModel.RequestPhoneNumber
+import com.hbazai.industreport.pages.user_page.auth.dataModel.ResponseSendOTP
 import com.hbazai.industreport.utils.Constants.Companion.BASE_URL
 import com.hbazai.industreport.utils.TokenContainer
 import io.reactivex.Single
@@ -81,6 +83,18 @@ interface ApiService {
     @GET("notifications/show_notifications.php")
     fun showNotifications():Single<List<ResponseShowNotificationItem>>
 
+    // Check Phone and Send OTP
+    @POST("user/send_otp.php")
+    fun checkPhoneNumber(
+        @Body requestPhoneNumber:RequestPhoneNumber
+    ):Single<ResponseSendOTP>
+
+    // Get Token
+    @POST("user/login_user.php")
+    fun getToken(
+        @Body requestPhoneNumber:RequestPhoneNumber
+    ):Single<ResponseSendOTP>
+
 
 
 }
@@ -94,7 +108,7 @@ fun retrofitApi():ApiService{
             val oldRequest = it.request()
             val newRequest = oldRequest.newBuilder()
             if (TokenContainer.token != null){
-                newRequest.addHeader("Authorization",TokenContainer.token!!)
+                newRequest.addHeader("Authorization","Bearer ${TokenContainer.token!!}")
             }
             newRequest.method(oldRequest.method, oldRequest.body)
             return@addInterceptor it.proceed(newRequest.build())
