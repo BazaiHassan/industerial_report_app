@@ -56,7 +56,7 @@ class PermitReportAdapter :
             user.text = report.userId
             date.text = report.date
 
-            setOnItemClickListener {
+            setOnClickListener {
                 onItemClickListener?.let {
                     it(report)
                 }

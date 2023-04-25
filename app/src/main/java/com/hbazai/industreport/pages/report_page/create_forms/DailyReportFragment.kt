@@ -1,5 +1,6 @@
 package com.hbazai.industreport.pages.report_page.create_forms
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -16,9 +17,12 @@ import com.hbazai.industreport.R
 import com.hbazai.industreport.pages.report_page.ReportFragment
 import com.hbazai.industreport.pages.report_page.dataModel.daily.RequestCreateDailyReport
 import com.hbazai.industreport.pages.report_page.viewModel.daily.CreateDailyReportViewModel
+import com.hbazai.industreport.pages.user_page.auth.viewModel.ShowUserInfoViewModel
+import com.hbazai.industreport.utils.SendToken
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.time.LocalDate
 import java.time.LocalTime
+import java.time.format.DateTimeFormatter
 
 
 class DailyReportFragment : Fragment() {
@@ -28,7 +32,7 @@ class DailyReportFragment : Fragment() {
     private lateinit var etUnitDailyReport: EditText
     private lateinit var etDescriptionDailyReport: EditText
     private lateinit var etInstrumentDailyReport: EditText
-    private lateinit var etUserDailyReport: EditText
+    private lateinit var etUserDailyReport: TextView
     private lateinit var etTitleDailyReport: EditText
     private lateinit var tvTypeDailyReport: TextView
     private lateinit var tvDateTime: TextView
@@ -36,6 +40,7 @@ class DailyReportFragment : Fragment() {
     private lateinit var pbSubmitReport:ProgressBar
 
     private val createDailyReportViewModel: CreateDailyReportViewModel by viewModel()
+    private val showUserInfoViewModel: ShowUserInfoViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,7 +70,21 @@ class DailyReportFragment : Fragment() {
 
         pbSubmitReport = view.findViewById(R.id.pb_submit_form)
 
-        tvDateTime.text = "${LocalDate.now()} ${LocalTime.now()}"
+        tvDateTime.text = "${LocalDate.now()}"
+
+        // Get the shared preferences file
+        val sharedPrefs = requireActivity().getSharedPreferences("myPrefs", Context.MODE_PRIVATE)
+        // Retrieve the value for the key "token"
+        val token = sharedPrefs.getString("token", "")
+        val sendToken = SendToken(token)
+        showUserInfoViewModel.showUserInfo(sendToken)
+        showUserInfoViewModel.showUserInfoLiveData.observe(viewLifecycleOwner){
+            if (it != null){
+                etUserDailyReport.text = "${it.firstName} ${it.lastName}"
+            }else{
+                Toast.makeText(requireContext(),"اشکال در دریافت اطلاعات",Toast.LENGTH_SHORT).show()
+            }
+        }
 
         btnClose.setOnClickListener {
             val replaceFragment = ReportFragment()
@@ -83,8 +102,8 @@ class DailyReportFragment : Fragment() {
                 unit = etUnitDailyReport.text.toString(),
                 description = etDescriptionDailyReport.text.toString(),
                 instrumentTag = etInstrumentDailyReport.text.toString(),
-                userToken = "lsdbvcansvhbsicshaknmavesvdsv",
-                time = LocalTime.now().toString(),
+                userToken = token,
+                time = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")).toString(),
                 title = etTitleDailyReport.text.toString(),
                 type = tvTypeDailyReport.text.toString(),
                 userId = etUserDailyReport.text.toString()

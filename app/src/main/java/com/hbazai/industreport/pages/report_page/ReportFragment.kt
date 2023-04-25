@@ -77,16 +77,6 @@ class ReportFragment : Fragment() {
 
 
 
-
-
-    private fun hideProgressBar(){
-
-    }
-
-    private fun showProgressBar(){
-
-    }
-
     private fun replaceFragment(fragment: Fragment) {
         val fragmentManager = parentFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()

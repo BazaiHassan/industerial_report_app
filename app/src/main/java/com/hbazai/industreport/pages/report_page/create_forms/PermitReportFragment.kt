@@ -21,6 +21,8 @@ import com.hbazai.industreport.pages.report_page.ReportFragment
 import com.hbazai.industreport.pages.report_page.dataModel.permit.RequestCreatePermitReport
 import com.hbazai.industreport.pages.report_page.viewModel.UploadReportImageViewModel
 import com.hbazai.industreport.pages.report_page.viewModel.permit.CreatePermitReportViewModel
+import com.hbazai.industreport.pages.user_page.auth.viewModel.ShowUserInfoViewModel
+import com.hbazai.industreport.utils.SendToken
 import com.hbazai.industreport.utils.UploadRequestBody
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
@@ -36,6 +38,7 @@ import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.time.LocalDate
 import java.time.LocalTime
+import java.time.format.DateTimeFormatter
 
 class PermitReportFragment : Fragment(), UploadRequestBody.UploadCallback {
 
@@ -46,7 +49,7 @@ class PermitReportFragment : Fragment(), UploadRequestBody.UploadCallback {
     private lateinit var etPermitNumberReport: EditText
     private lateinit var etTitlePermitReport: EditText
     private lateinit var tvTypePermitReport: TextView
-    private lateinit var etUserPermitReport: EditText
+    private lateinit var etUserPermitReport: TextView
     private lateinit var tvPermitDateTime: TextView
     private lateinit var rbPermitClosed: RadioButton
     private lateinit var rbPermitContinued: RadioButton
@@ -65,6 +68,7 @@ class PermitReportFragment : Fragment(), UploadRequestBody.UploadCallback {
 
     private val createPermitReportViewModel: CreatePermitReportViewModel by viewModel()
     private val uploadReportImageViewModel: UploadReportImageViewModel by viewModel()
+    private val showUserInfoViewModel: ShowUserInfoViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -103,6 +107,23 @@ class PermitReportFragment : Fragment(), UploadRequestBody.UploadCallback {
         pbUploadImagePermit = view.findViewById(R.id.pb_upload_image_permit)
 
         imgUploadPermit = view.findViewById(R.id.img_upload_permit)
+
+        tvPermitDateTime.text = "${LocalDate.now()}"
+
+        // Get the shared preferences file
+        val sharedPrefs = requireActivity().getSharedPreferences("myPrefs", Context.MODE_PRIVATE)
+        // Retrieve the value for the key "token"
+        val token = sharedPrefs.getString("token", "")
+        val sendToken = SendToken(token)
+        showUserInfoViewModel.showUserInfo(sendToken)
+        showUserInfoViewModel.showUserInfoLiveData.observe(viewLifecycleOwner){
+            if (it != null){
+                etUserPermitReport.text = "${it.firstName} ${it.lastName}"
+            }else{
+                Toast.makeText(requireContext(),"اشکال در دریافت اطلاعات",Toast.LENGTH_SHORT).show()
+            }
+        }
+
 
         imgUploadPermit.setOnClickListener {
             // Request both READ_EXTERNAL_STORAGE and CAMERA permissions
@@ -204,8 +225,8 @@ class PermitReportFragment : Fragment(), UploadRequestBody.UploadCallback {
                 unit = etUnitPermitReport.text.toString(),
                 description = etDescriptionPermitReport.text.toString(),
                 instrumentTag = etPermitNumberReport.text.toString(),
-                userToken = "lsdbvcansvhbsicshaknmavesvdsv",
-                time = LocalTime.now().toString(),
+                userToken = token,
+                time = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")).toString(),
                 title = etTitlePermitReport.text.toString(),
                 type = tvTypePermitReport.text.toString(),
                 userId = etUserPermitReport.text.toString(),
@@ -290,7 +311,7 @@ class PermitReportFragment : Fragment(), UploadRequestBody.UploadCallback {
 
 
     override fun onProgressUpdate(percentage: Int) {
-        TODO("Not yet implemented")
+
     }
 
 }

@@ -15,12 +15,11 @@ import com.hbazai.industreport.pages.report_page.dataModel.risk.ResponseShowRisk
 import com.hbazai.industreport.pages.search_page.dataModel.ResponseSearch
 import com.hbazai.industreport.pages.user_page.auth.dataModel.RequestPhoneNumber
 import com.hbazai.industreport.pages.user_page.auth.dataModel.ResponseSendOTP
+import com.hbazai.industreport.pages.user_page.auth.dataModel.ResponseUserInfo
 import com.hbazai.industreport.utils.Constants.Companion.BASE_URL
-import com.hbazai.industreport.utils.TokenContainer
+import com.hbazai.industreport.utils.SendToken
 import io.reactivex.Single
 import okhttp3.MultipartBody
-import okhttp3.OkHttpClient
-import okhttp3.RequestBody
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -95,6 +94,12 @@ interface ApiService {
         @Body requestPhoneNumber:RequestPhoneNumber
     ):Single<ResponseSendOTP>
 
+    // Show User Profile
+    @POST("user/show_user_profile.php")
+    fun showUserProfile(
+        @Body sendToken:SendToken
+    ):Single<ResponseUserInfo>
+
 
 
 }
@@ -102,24 +107,24 @@ interface ApiService {
 
 fun retrofitApi():ApiService{
 
-    // Define Header
-    val okHttpClient = OkHttpClient.Builder()
-        .addInterceptor{
-            val oldRequest = it.request()
-            val newRequest = oldRequest.newBuilder()
-            if (TokenContainer.token != null){
-                newRequest.addHeader("Authorization","Bearer ${TokenContainer.token!!}")
-            }
-            newRequest.method(oldRequest.method, oldRequest.body)
-            return@addInterceptor it.proceed(newRequest.build())
-
-        }.build()
+//    // Define Header
+//    val okHttpClient = OkHttpClient.Builder()
+//        .addInterceptor{
+//            val oldRequest = it.request()
+//            val newRequest = oldRequest.newBuilder()
+//            if (TokenContainer.token != null){
+//                newRequest.addHeader("Authorization","Bearer ${TokenContainer.token!!}")
+//            }
+//            newRequest.method(oldRequest.method, oldRequest.body)
+//            return@addInterceptor it.proceed(newRequest.build())
+//
+//        }.build()
 
     val retrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)
         .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
         .addConverterFactory(GsonConverterFactory.create())
-        .client(okHttpClient)
+//        .client(okHttpClient)
         .build()
 
     return retrofit.create(ApiService::class.java)

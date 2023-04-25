@@ -1,5 +1,6 @@
 package com.hbazai.industreport.pages.report_page.create_forms
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -12,9 +13,12 @@ import com.hbazai.industreport.R
 import com.hbazai.industreport.pages.report_page.ReportFragment
 import com.hbazai.industreport.pages.report_page.dataModel.chemical.RequestCreateChemicalReport
 import com.hbazai.industreport.pages.report_page.viewModel.chemical.CreateChemicalReportViewModel
+import com.hbazai.industreport.pages.user_page.auth.viewModel.ShowUserInfoViewModel
+import com.hbazai.industreport.utils.SendToken
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.time.LocalDate
 import java.time.LocalTime
+import java.time.format.DateTimeFormatter
 
 
 class ChemicalReportFragment : Fragment() {
@@ -24,7 +28,7 @@ class ChemicalReportFragment : Fragment() {
     private lateinit var etUnitChemicalReport: EditText
     private lateinit var etDescriptionChemicalReport: EditText
     private lateinit var etMaterialChemicalReport: EditText
-    private lateinit var etUserChemicalReport: EditText
+    private lateinit var etUserChemicalReport: TextView
     private lateinit var etTitleChemicalReport: EditText
     private lateinit var tvTypeChemicalReport: TextView
     private lateinit var tvChemicalDateTime: TextView
@@ -32,6 +36,7 @@ class ChemicalReportFragment : Fragment() {
     private lateinit var pbSubmitReport:ProgressBar
 
     private val createChemicalReportViewModel:CreateChemicalReportViewModel by viewModel()
+    private val showUserInfoViewModel:ShowUserInfoViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,6 +49,7 @@ class ChemicalReportFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         btnClose = view.findViewById(R.id.btn_close_chemical)
 
         btnSubmitChemicalReport = view.findViewById(R.id.btn_create_chemical_report)
@@ -55,9 +61,23 @@ class ChemicalReportFragment : Fragment() {
         tvChemicalDateTime = view.findViewById(R.id.tv_chemical_date_time)
         etUserChemicalReport = view.findViewById(R.id.et_user_chemical_report)
 
-        tvChemicalDateTime.text = "${LocalDate.now()} ${LocalTime.now()}"
+        tvChemicalDateTime.text = "${LocalDate.now()}"
 
         pbSubmitReport = view.findViewById(R.id.pb_submit_form)
+
+        // Get the shared preferences file
+        val sharedPrefs = requireActivity().getSharedPreferences("myPrefs", Context.MODE_PRIVATE)
+        // Retrieve the value for the key "token"
+        val token = sharedPrefs.getString("token", "")
+        val sendToken = SendToken(token)
+        showUserInfoViewModel.showUserInfo(sendToken)
+        showUserInfoViewModel.showUserInfoLiveData.observe(viewLifecycleOwner){
+            if (it != null){
+                etUserChemicalReport.text = "${it.firstName} ${it.lastName}"
+            }else{
+                Toast.makeText(requireContext(),"اشکال در دریافت اطلاعات",Toast.LENGTH_SHORT).show()
+            }
+        }
 
         btnSubmitChemicalReport.setOnClickListener {
 
@@ -70,8 +90,8 @@ class ChemicalReportFragment : Fragment() {
                 unit = etUnitChemicalReport.text.toString(),
                 description = etDescriptionChemicalReport.text.toString(),
                 materialName = etMaterialChemicalReport.text.toString(),
-                userToken = "lsdbvcansvhbsicshaknmavesvdsv",
-                time = LocalTime.now().toString(),
+                userToken = token,
+                time = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")).toString(),
                 title = etTitleChemicalReport.text.toString(),
                 type = tvTypeChemicalReport.text.toString(),
                 userId = etUserChemicalReport.text.toString()

@@ -1,6 +1,7 @@
 package com.hbazai.industreport.pages.notify_page
 
 import android.app.Dialog
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -17,6 +18,8 @@ import com.hbazai.industreport.pages.notify_page.adapter.NotificationAdapter
 import com.hbazai.industreport.pages.notify_page.dataModel.RequestCreateNotification
 import com.hbazai.industreport.pages.notify_page.viewModel.CreateNotificationViewModel
 import com.hbazai.industreport.pages.notify_page.viewModel.ShowNotificationViewModel
+import com.hbazai.industreport.pages.user_page.auth.viewModel.ShowUserInfoViewModel
+import com.hbazai.industreport.utils.SendToken
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.time.LocalDate
@@ -28,6 +31,7 @@ class NotifyFragment : Fragment() {
     private val createNotificationViewModel: CreateNotificationViewModel by viewModel()
     private val showNotificationViewModel: ShowNotificationViewModel by viewModel()
     private val notificationAdapter: NotificationAdapter by inject()
+    private val showUserInfoViewModel: ShowUserInfoViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,6 +51,13 @@ class NotifyFragment : Fragment() {
 
         btnCreateAlert = view.findViewById(R.id.btn_create_alert)
         rvNotifications = view.findViewById(R.id.rv_notifications)
+
+        // Get the shared preferences file
+        val sharedPrefs = requireActivity().getSharedPreferences("myPrefs", Context.MODE_PRIVATE)
+        // Retrieve the value for the key "token"
+        val token = sharedPrefs.getString("token", "")
+        val sendToken = SendToken(token)
+        showUserInfoViewModel.showUserInfo(sendToken)
 
         showNotificationViewModel.showNotificationLiveData.observe(viewLifecycleOwner){
             if (it != null){
@@ -78,6 +89,7 @@ class NotifyFragment : Fragment() {
         val rbVeryImportant = view.findViewById<RadioButton>(R.id.very_important_notification)
         val pbCreateNotification = view.findViewById<ProgressBar>(R.id.pb_submit_alert)
         var alertType: String = "عمومی"
+        var userIdAlert:String? = null
         // Set Notification Type
         rbCommon.setOnClickListener {
             alertType = "عمومی"
@@ -89,6 +101,14 @@ class NotifyFragment : Fragment() {
 
         rbVeryImportant.setOnClickListener {
             alertType = "خیلی مهم"
+        }
+
+        showUserInfoViewModel.showUserInfoLiveData.observe(viewLifecycleOwner){
+            if (it != null){
+                userIdAlert = "${it.firstName} ${it.lastName}"
+            }else{
+                Toast.makeText(requireContext(),"اشکال در دریافت اطلاعات",Toast.LENGTH_SHORT).show()
+            }
         }
 
 
@@ -103,7 +123,7 @@ class NotifyFragment : Fragment() {
                 val requestCreateNotification = RequestCreateNotification(
                     date = LocalDate.now().toString(),
                     importanceLvl = alertType,
-                    userId = "مدیریت",
+                    userId = userIdAlert,
                     description = describe.text.toString(),
                     title = title.text.toString()
                 )

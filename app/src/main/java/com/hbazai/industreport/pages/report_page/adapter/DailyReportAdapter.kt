@@ -56,10 +56,8 @@ class DailyReportAdapter :
             user.text = report.userId
             date.text = report.date
 
-            setOnItemClickListener {
-                onItemClickListener?.let {
-                    it(report)
-                }
+            setOnClickListener {
+                onItemClickListener?.invoke(report)
             }
         }
     }
@@ -70,7 +68,7 @@ class DailyReportAdapter :
 
     private var onItemClickListener: ((ResponseShowReportsItem) -> Unit)? = null
 
-    private fun setOnItemClickListener(listener: (ResponseShowReportsItem) -> Unit) {
+    fun setOnItemClickListener(listener: (ResponseShowReportsItem) -> Unit) {
         onItemClickListener = listener
     }
 

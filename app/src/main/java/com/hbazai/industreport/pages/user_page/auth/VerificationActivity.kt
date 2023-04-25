@@ -76,6 +76,10 @@ class VerificationActivity : AppCompatActivity() {
                             pbCheckCode.visibility = View.GONE
                         }
                     }
+                }else{
+                    btnCheckCode.visibility = View.VISIBLE
+                    pbCheckCode.visibility = View.GONE
+                    Toast.makeText(this,"کد وارد شده اشتباه می باشد", Toast.LENGTH_SHORT).show()
                 }
             }
         }

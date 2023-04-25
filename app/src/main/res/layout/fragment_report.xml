@@ -28,61 +28,62 @@
 
         </LinearLayout>
 
-                <com.nambimobile.widgets.efab.ExpandableFabLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:backgroundTint="@color/material_on_background_disabled">
+        <com.nambimobile.widgets.efab.ExpandableFabLayout
+            android:layout_gravity="bottom"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:backgroundTint="@color/material_on_background_disabled">
 
-                    <com.nambimobile.widgets.efab.ExpandableFab
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="bottom|end"
-                        android:layout_marginEnd="@dimen/_16sdp"
-                        android:layout_marginBottom="@dimen/_16sdp"
-                        app:efab_fabOptionPosition="above"
-                        app:efab_iconAnimationRotationDeg="135"
-                        app:efab_orientation="portrait" />
+            <com.nambimobile.widgets.efab.ExpandableFab
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_marginEnd="@dimen/_16sdp"
+                android:layout_marginBottom="@dimen/_16sdp"
+                app:efab_fabOptionPosition="above"
+                app:efab_iconAnimationRotationDeg="135"
+                app:efab_orientation="portrait" />
 
-                    <com.nambimobile.widgets.efab.FabOption
-                        android:id="@+id/fab_daily_report"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:fab_icon="@drawable/ic_today"
-                        app:fab_orientation="portrait"
-                        app:label_position="left"
-                        app:label_text="گزارش روزانه"
-                        app:label_translationXPx="100" />
+            <com.nambimobile.widgets.efab.FabOption
+                android:id="@+id/fab_daily_report"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:fab_icon="@drawable/ic_today"
+                app:fab_orientation="portrait"
+                app:label_position="left"
+                app:label_text="گزارش روزانه"
+                app:label_translationXPx="100" />
 
-                    <com.nambimobile.widgets.efab.FabOption
-                        android:id="@+id/fab_chemical_report"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:fab_icon="@drawable/ic_chemical"
-                        app:fab_orientation="portrait"
-                        app:label_position="left"
-                        app:label_text="گزارش مواد شیمیایی"
-                        app:label_translationXPx="100" />
+            <com.nambimobile.widgets.efab.FabOption
+                android:id="@+id/fab_chemical_report"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:fab_icon="@drawable/ic_chemical"
+                app:fab_orientation="portrait"
+                app:label_position="left"
+                app:label_text="گزارش مواد شیمیایی"
+                app:label_translationXPx="100" />
 
-                    <com.nambimobile.widgets.efab.FabOption
-                        android:id="@+id/fab_risk_report"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:fab_icon="@drawable/ic_dangerous"
-                        app:fab_orientation="portrait"
-                        app:label_position="left"
-                        app:label_text="گزارش خطر"
-                        app:label_translationXPx="100" />
+            <com.nambimobile.widgets.efab.FabOption
+                android:id="@+id/fab_risk_report"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:fab_icon="@drawable/ic_dangerous"
+                app:fab_orientation="portrait"
+                app:label_position="left"
+                app:label_text="گزارش خطر"
+                app:label_translationXPx="100" />
 
-                    <com.nambimobile.widgets.efab.FabOption
-                        android:id="@+id/fab_permit_report"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:fab_icon="@drawable/ic_permit"
-                        app:fab_orientation="portrait"
-                        app:label_position="left"
-                        app:label_text="مجوز کار"
-                        app:label_translationXPx="100" />
-                </com.nambimobile.widgets.efab.ExpandableFabLayout>
+            <com.nambimobile.widgets.efab.FabOption
+                android:id="@+id/fab_permit_report"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:fab_icon="@drawable/ic_permit"
+                app:fab_orientation="portrait"
+                app:label_position="left"
+                app:label_text="مجوز کار"
+                app:label_translationXPx="100" />
+        </com.nambimobile.widgets.efab.ExpandableFabLayout>
 
 
     </FrameLayout>

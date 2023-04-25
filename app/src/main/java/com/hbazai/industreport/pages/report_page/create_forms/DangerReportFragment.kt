@@ -1,5 +1,6 @@
 package com.hbazai.industreport.pages.report_page.create_forms
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -11,9 +12,12 @@ import com.hbazai.industreport.R
 import com.hbazai.industreport.pages.report_page.ReportFragment
 import com.hbazai.industreport.pages.report_page.dataModel.risk.RequestCreateRiskReport
 import com.hbazai.industreport.pages.report_page.viewModel.risk.CreateRiskReportViewModel
+import com.hbazai.industreport.pages.user_page.auth.viewModel.ShowUserInfoViewModel
+import com.hbazai.industreport.utils.SendToken
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.time.LocalDate
 import java.time.LocalTime
+import java.time.format.DateTimeFormatter
 
 
 class DangerReportFragment : Fragment() {
@@ -25,13 +29,14 @@ class DangerReportFragment : Fragment() {
     private lateinit var etInstrumentRiskReport: EditText
     private lateinit var etTitleRiskReport: EditText
     private lateinit var tvTypeRiskReport: TextView
-    private lateinit var etUserRiskReport: EditText
+    private lateinit var etUserRiskReport: TextView
     private lateinit var tvRiskDateTime: TextView
 
     private lateinit var pbSubmitForm:ProgressBar
 
 
     private val createRiskReportViewModel:CreateRiskReportViewModel by viewModel()
+    private val showUserInfoViewModel: ShowUserInfoViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,8 +66,22 @@ class DangerReportFragment : Fragment() {
 
         pbSubmitForm = view.findViewById(R.id.pb_submit_form)
 
+        // Get the shared preferences file
+        val sharedPrefs = requireActivity().getSharedPreferences("myPrefs", Context.MODE_PRIVATE)
+        // Retrieve the value for the key "token"
+        val token = sharedPrefs.getString("token", "")
+        val sendToken = SendToken(token)
+        showUserInfoViewModel.showUserInfo(sendToken)
+        showUserInfoViewModel.showUserInfoLiveData.observe(viewLifecycleOwner){
+            if (it != null){
+                etUserRiskReport.text = "${it.firstName} ${it.lastName}"
+            }else{
+                Toast.makeText(requireContext(),"اشکال در دریافت اطلاعات",Toast.LENGTH_SHORT).show()
+            }
+        }
 
-        tvRiskDateTime.text = "${LocalDate.now()} ${LocalTime.now()}"
+
+        tvRiskDateTime.text = "${LocalDate.now()}"
 
         btnClose.setOnClickListener {
             val replaceFragment = ReportFragment()
@@ -80,8 +99,8 @@ class DangerReportFragment : Fragment() {
                 unit = etUnitRiskReport.text.toString(),
                 description = etDescriptionRiskReport.text.toString(),
                 instrumentTag = etInstrumentRiskReport.text.toString(),
-                userToken = "lsdbvcansvhbsicshaknmavesvdsv",
-                time = LocalTime.now().toString(),
+                userToken = token,
+                time = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")).toString(),
                 title = etTitleRiskReport.text.toString(),
                 type = tvTypeRiskReport.text.toString(),
                 userId = etUserRiskReport.text.toString()

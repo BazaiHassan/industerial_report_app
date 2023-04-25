@@ -5,27 +5,37 @@
     android:layout_height="match_parent"
     android:layoutDirection="rtl"
     android:orientation="vertical"
+    android:gravity="center"
     tools:context=".pages.user_page.UserFragment">
 
+    <ProgressBar
+        android:id="@+id/pb_load_profile"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
     <ScrollView
+        android:id="@+id/sv_profile"
+        android:visibility="visible"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:background="@color/google_green"
             android:orientation="vertical">
 
             <ImageView
-                android:background="@drawable/bg_circle_icon"
-                android:layout_width="@dimen/_100sdp"
-                android:layout_height="@dimen/_100sdp"
+                android:layout_width="@dimen/_86sdp"
+                android:layout_height="@dimen/_86sdp"
                 android:layout_gravity="center"
                 android:layout_marginTop="@dimen/_10sdp"
+                android:background="@drawable/bg_circle_icon"
                 android:src="@drawable/ic_account_profile" />
 
             <TextView
+                android:id="@+id/user_profile_full_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -36,12 +46,23 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/user_profile_personal_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="شماره پرسنلی"
                 android:textColor="#CCFFFFFF"
                 android:textSize="@dimen/_12sdp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/user_profile_shift"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="شیفت کاری"
+                android:textColor="#CCFFFFFF"
+                android:textSize="@dimen/_14sdp"
                 android:textStyle="bold" />
 
             <androidx.appcompat.widget.AppCompatButton
@@ -555,14 +576,19 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:clickable="true"
+                    android:id="@+id/btn_exit_profile"
+                    android:layout_width="@dimen/_164sdp"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/_4sdp"
+                    android:layout_gravity="center_horizontal"
                     android:background="@drawable/bg_logout"
                     android:orientation="horizontal"
-                    android:padding="@dimen/_2sdp">
+                    android:padding="@dimen/_2sdp"
+                    android:focusable="true">
 
                     <RelativeLayout
+                        android:gravity="center"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="@dimen/_4sdp">
@@ -585,11 +611,6 @@
                             android:textColor="@color/white"
                             android:textSize="@dimen/_12sdp" />
 
-                        <ImageView
-                            android:layout_width="@dimen/_24sdp"
-                            android:layout_height="@dimen/_24sdp"
-                            android:layout_alignParentEnd="true"
-                            android:src="@drawable/ic_arrow" />
                     </RelativeLayout>
 
 

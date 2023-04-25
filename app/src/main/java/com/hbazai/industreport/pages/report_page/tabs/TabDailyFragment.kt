@@ -1,16 +1,22 @@
 package com.hbazai.industreport.pages.report_page.tabs
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.AdapterView.OnItemClickListener
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.OnItemTouchListener
 import com.hbazai.industreport.R
+import com.hbazai.industreport.pages.report_page.ShowDetailReportActivity
 import com.hbazai.industreport.pages.report_page.adapter.DailyReportAdapter
 import com.hbazai.industreport.pages.report_page.viewModel.daily.ShowDailyReportsViewModel
 import org.koin.android.ext.android.inject
@@ -45,20 +51,38 @@ class TabDailyFragment : Fragment() {
         rvReports.visibility = View.GONE
         pbShowReports.visibility = View.VISIBLE
 
-        showReportsViewModel.showReportsLiveData.observe(viewLifecycleOwner){
-            if (it != null){
-                reportAdapter.differ.submitList(it)
+        showReportsViewModel.showReportsLiveData.observe(viewLifecycleOwner){ listOfDailyReports ->
+            if (listOfDailyReports != null){
+                reportAdapter.differ.submitList(listOfDailyReports)
                 rvReports.apply {
                     layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
                     adapter = reportAdapter
-                    Log.d("TAG_FRAGMENT_REPORT", "onViewCreated: $it")
                 }
+
                 rvReports.visibility = View.VISIBLE
                 pbShowReports.visibility = View.GONE
+
+                reportAdapter.setOnItemClickListener {
+                    val intent = Intent(requireActivity(), ShowDetailReportActivity::class.java)
+                    intent.apply {
+                        putExtra("id",it.id.toString())
+                        putExtra("date",it.date.toString())
+                        putExtra("image",it.image.toString())
+                        putExtra("description",it.description.toString())
+                        putExtra("time",it.time.toString())
+                        putExtra("instrumentTag",it.instrumentTag.toString())
+                        putExtra("title",it.title.toString())
+                        putExtra("unit",it.unit.toString())
+                        putExtra("userId",it.userId.toString())
+                        putExtra("type",it.type.toString())
+                    }
+                    startActivity(intent)
+                }
             }else{
                 Toast.makeText(requireContext(),"اشکال در ارتباط با سرور", Toast.LENGTH_SHORT).show()
             }
 
         }
+
     }
 }
