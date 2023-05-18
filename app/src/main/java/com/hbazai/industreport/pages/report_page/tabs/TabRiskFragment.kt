@@ -1,5 +1,6 @@
 package com.hbazai.industreport.pages.report_page.tabs
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -11,6 +12,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.hbazai.industreport.R
+import com.hbazai.industreport.pages.report_page.ShowDetailReportActivity
 import com.hbazai.industreport.pages.report_page.adapter.RiskReportAdapter
 import com.hbazai.industreport.pages.report_page.viewModel.risk.ShowRiskReportsViewModel
 import org.koin.android.ext.android.inject
@@ -56,6 +58,23 @@ class TabRiskFragment : Fragment() {
                 }
                 rvReports.visibility = View.VISIBLE
                 pbShowReports.visibility = View.GONE
+
+                reportAdapter.setOnItemClickListener {
+                    val intent = Intent(requireActivity(), ShowDetailReportActivity::class.java)
+                    intent.apply {
+                        putExtra("id",it.id.toString())
+                        putExtra("date",it.date.toString())
+                        putExtra("image",it.image.toString())
+                        putExtra("description",it.description.toString())
+                        putExtra("time",it.time.toString())
+                        putExtra("instrumentTag",it.instrumentTag.toString())
+                        putExtra("title",it.title.toString())
+                        putExtra("unit",it.unit.toString())
+                        putExtra("userId",it.userId.toString())
+                        putExtra("type",it.type.toString())
+                    }
+                    startActivity(intent)
+                }
             }else{
                 Toast.makeText(requireContext(),"اشکال در ارتباط با سرور", Toast.LENGTH_SHORT).show()
             }

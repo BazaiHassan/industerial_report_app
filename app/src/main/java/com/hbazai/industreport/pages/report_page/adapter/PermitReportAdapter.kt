@@ -70,7 +70,7 @@ class PermitReportAdapter :
 
     private var onItemClickListener: ((ResponseShowPermitReportItem) -> Unit)? = null
 
-    private fun setOnItemClickListener(listener: (ResponseShowPermitReportItem) -> Unit) {
+    fun setOnItemClickListener(listener: (ResponseShowPermitReportItem) -> Unit) {
         onItemClickListener = listener
     }
 

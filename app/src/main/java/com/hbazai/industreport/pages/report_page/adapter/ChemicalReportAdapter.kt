@@ -71,7 +71,7 @@ class ChemicalReportAdapter :
 
     private var onItemClickListener: ((ResponseShowChemicalReportItem) -> Unit)? = null
 
-    private fun setOnItemClickListener(listener: (ResponseShowChemicalReportItem) -> Unit) {
+    fun setOnItemClickListener(listener: (ResponseShowChemicalReportItem) -> Unit) {
         onItemClickListener = listener
     }
 

@@ -72,7 +72,7 @@ class RiskReportAdapter :
 
     private var onItemClickListener: ((ResponseShowRiskReportItem) -> Unit)? = null
 
-    private fun setOnItemClickListener(listener: (ResponseShowRiskReportItem) -> Unit) {
+    fun setOnItemClickListener(listener: (ResponseShowRiskReportItem) -> Unit) {
         onItemClickListener = listener
     }
 
