@@ -43,7 +43,7 @@ import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
-class PermitReportFragment : Fragment(), UploadRequestBody.UploadCallback {
+class PermitReportFragment : Fragment() {
 
     private lateinit var btnClose: ImageView
     private lateinit var imgImageUploaded: ImageView
@@ -319,9 +319,5 @@ class PermitReportFragment : Fragment(), UploadRequestBody.UploadCallback {
         return file.name
     }
 
-
-    override fun onProgressUpdate(percentage: Int) {
-
-    }
 
 }

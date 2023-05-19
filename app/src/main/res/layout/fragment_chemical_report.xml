@@ -146,6 +146,7 @@
                     android:textSize="@dimen/_16sdp" />
 
                 <Button
+                    android:id="@+id/btn_upload_image"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
@@ -157,6 +158,34 @@
                     android:text="اضافه کردن عکس"
                     android:textColor="@color/google_blue"
                     android:textSize="16sp" />
+
+                <Button
+                    android:id="@+id/btn_image_permit_upload"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_margin="@dimen/_4sdp"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:text="بارگذاری عکس"
+                    android:visibility="gone" />
+
+                <ProgressBar
+                    android:id="@+id/pb_upload_image_permit"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_margin="@dimen/_4sdp"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/img_image_uploaded"
+                    android:layout_width="@dimen/_64sdp"
+                    android:layout_height="@dimen/_86sdp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/_2sdp"
+                    android:scaleType="centerCrop"
+                    android:visibility="gone" />
 
             </LinearLayout>
 
