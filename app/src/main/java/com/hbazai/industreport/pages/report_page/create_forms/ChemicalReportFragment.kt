@@ -94,7 +94,8 @@ class ChemicalReportFragment : Fragment() {
                 time = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")).toString(),
                 title = etTitleChemicalReport.text.toString(),
                 type = tvTypeChemicalReport.text.toString(),
-                userId = etUserChemicalReport.text.toString()
+                userId = etUserChemicalReport.text.toString(),
+                reportType = "Chemical"
             )
 
             createChemicalReportViewModel.createChemicalReport(chemicalReportBody)

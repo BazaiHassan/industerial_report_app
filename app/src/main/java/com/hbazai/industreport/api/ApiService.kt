@@ -7,6 +7,8 @@ import com.hbazai.industreport.pages.report_page.dataModel.ResponseCreateReport
 import com.hbazai.industreport.pages.report_page.dataModel.ResponseUploadImage
 import com.hbazai.industreport.pages.report_page.dataModel.chemical.RequestCreateChemicalReport
 import com.hbazai.industreport.pages.report_page.dataModel.chemical.ResponseShowChemicalReportItem
+import com.hbazai.industreport.pages.report_page.dataModel.comments.CreateCommentModel
+import com.hbazai.industreport.pages.report_page.dataModel.comments.ResponseComments
 import com.hbazai.industreport.pages.report_page.dataModel.daily.ResponseShowReportsItem
 import com.hbazai.industreport.pages.report_page.dataModel.permit.RequestCreatePermitReport
 import com.hbazai.industreport.pages.report_page.dataModel.permit.ResponseShowPermitReportItem
@@ -17,6 +19,7 @@ import com.hbazai.industreport.pages.user_page.auth.dataModel.RequestPhoneNumber
 import com.hbazai.industreport.pages.user_page.auth.dataModel.ResponseSendOTP
 import com.hbazai.industreport.pages.user_page.auth.dataModel.ResponseUserInfo
 import com.hbazai.industreport.utils.Constants.Companion.BASE_URL
+import com.hbazai.industreport.utils.SendReportToken
 import com.hbazai.industreport.utils.SendToken
 import io.reactivex.Single
 import okhttp3.MultipartBody
@@ -59,7 +62,7 @@ interface ApiService {
     @Multipart
     @POST("reports/upload_report_image.php")
     fun uploadReportImage(
-        @Part sendImage: MultipartBody.Part,
+        @Part image: MultipartBody.Part,
 
     ):Single<ResponseUploadImage>
 
@@ -100,6 +103,14 @@ interface ApiService {
         @Body sendToken:SendToken
     ):Single<ResponseUserInfo>
 
+    // Add Comment
+    @POST("reports/add_comment.php")
+    fun addComment(@Body createCommentModel: CreateCommentModel):Single<ResponseCreateReport>
+
+    // Show Comments (Here the token of the report will be sent to server)
+    @POST("reports/show_comments.php")
+    fun showComments(@Body sendToken: SendReportToken):Single<List<ResponseComments>>
+
 
 
 }
@@ -107,24 +118,10 @@ interface ApiService {
 
 fun retrofitApi():ApiService{
 
-//    // Define Header
-//    val okHttpClient = OkHttpClient.Builder()
-//        .addInterceptor{
-//            val oldRequest = it.request()
-//            val newRequest = oldRequest.newBuilder()
-//            if (TokenContainer.token != null){
-//                newRequest.addHeader("Authorization","Bearer ${TokenContainer.token!!}")
-//            }
-//            newRequest.method(oldRequest.method, oldRequest.body)
-//            return@addInterceptor it.proceed(newRequest.build())
-//
-//        }.build()
-
     val retrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)
         .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
         .addConverterFactory(GsonConverterFactory.create())
-//        .client(okHttpClient)
         .build()
 
     return retrofit.create(ApiService::class.java)

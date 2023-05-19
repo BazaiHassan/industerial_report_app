@@ -28,6 +28,7 @@ class UploadReportImageViewModel(private val uploadReportImageRepository: Upload
 
                 override fun onSuccess(t: ResponseUploadImage) {
                     uploadReportImageLiveData.value = t
+                    Log.d("TAG_RESPONSE_UPLOAD_IMAGE_REPORT", "onError:${t.message} ")
                 }
 
                 override fun onError(e: Throwable) {

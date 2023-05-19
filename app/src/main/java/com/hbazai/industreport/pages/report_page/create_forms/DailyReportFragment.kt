@@ -106,7 +106,8 @@ class DailyReportFragment : Fragment() {
                 time = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")).toString(),
                 title = etTitleDailyReport.text.toString(),
                 type = tvTypeDailyReport.text.toString(),
-                userId = etUserDailyReport.text.toString()
+                userId = etUserDailyReport.text.toString(),
+                reportType = "Daily"
             )
 
             createDailyReportViewModel.createDailyReport(dailyReportBody)

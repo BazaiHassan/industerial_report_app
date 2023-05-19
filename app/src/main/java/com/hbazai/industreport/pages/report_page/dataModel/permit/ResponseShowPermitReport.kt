@@ -44,5 +44,8 @@ data class ResponseShowPermitReportItem(
 	val userId: String? = null,
 
 	@field:SerializedName("status")
-	val status: String? = null
+	val status: String? = null,
+
+	@field:SerializedName("report_token")
+	val reportToken: String? = null
 )

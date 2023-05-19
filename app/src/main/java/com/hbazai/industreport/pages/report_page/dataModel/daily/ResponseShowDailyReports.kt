@@ -41,5 +41,8 @@ data class ResponseShowReportsItem(
 	val type: String? = null,
 
 	@field:SerializedName("userId")
-	val userId: String? = null
+	val userId: String? = null,
+
+	@field:SerializedName("report_token")
+	val reportToken: String? = null
 )

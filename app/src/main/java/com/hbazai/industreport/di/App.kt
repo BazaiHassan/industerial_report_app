@@ -12,13 +12,11 @@ import com.hbazai.industreport.pages.notify_page.repository.ImplCreateNotificati
 import com.hbazai.industreport.pages.notify_page.repository.ImplShowNotificationRepository
 import com.hbazai.industreport.pages.notify_page.repository.ShowNotificationRepository
 import com.hbazai.industreport.pages.notify_page.viewModel.ShowNotificationViewModel
-import com.hbazai.industreport.pages.report_page.adapter.ChemicalReportAdapter
-import com.hbazai.industreport.pages.report_page.adapter.DailyReportAdapter
-import com.hbazai.industreport.pages.report_page.adapter.PermitReportAdapter
-import com.hbazai.industreport.pages.report_page.adapter.RiskReportAdapter
+import com.hbazai.industreport.pages.report_page.adapter.*
 import com.hbazai.industreport.pages.report_page.dataSource.RemoteUploadReportImageDataSource
 import com.hbazai.industreport.pages.report_page.dataSource.chemical.RemoteCreateChemicalReportDataSource
 import com.hbazai.industreport.pages.report_page.dataSource.chemical.RemoteShowChemicalReportsDataSource
+import com.hbazai.industreport.pages.report_page.dataSource.comment.RemoteCommentDataSource
 import com.hbazai.industreport.pages.report_page.dataSource.daily.RemoteCreateDailyReportDataSource
 import com.hbazai.industreport.pages.report_page.dataSource.daily.RemoteShowDailyReportDataSource
 import com.hbazai.industreport.pages.report_page.dataSource.permit.RemoteCreatePermitReportDataSource
@@ -31,6 +29,8 @@ import com.hbazai.industreport.pages.report_page.repository.chemical.CreateChemi
 import com.hbazai.industreport.pages.report_page.repository.chemical.ImplCreateChemicalReportRepository
 import com.hbazai.industreport.pages.report_page.repository.chemical.ImplShowChemicalReportsRepository
 import com.hbazai.industreport.pages.report_page.repository.chemical.ShowChemicalReportsRepository
+import com.hbazai.industreport.pages.report_page.repository.comment.CommentRepository
+import com.hbazai.industreport.pages.report_page.repository.comment.ImplCommentRepository
 import com.hbazai.industreport.pages.report_page.repository.daily.CreateDailyReportRepository
 import com.hbazai.industreport.pages.report_page.repository.daily.ImplCreateDailyReportRepository
 import com.hbazai.industreport.pages.report_page.repository.daily.ImplShowDailyReportRepository
@@ -46,6 +46,7 @@ import com.hbazai.industreport.pages.report_page.repository.risk.ShowRiskReports
 import com.hbazai.industreport.pages.report_page.viewModel.UploadReportImageViewModel
 import com.hbazai.industreport.pages.report_page.viewModel.chemical.CreateChemicalReportViewModel
 import com.hbazai.industreport.pages.report_page.viewModel.chemical.ShowChemicalReportsViewModel
+import com.hbazai.industreport.pages.report_page.viewModel.comment.CommentViewModel
 import com.hbazai.industreport.pages.report_page.viewModel.daily.CreateDailyReportViewModel
 import com.hbazai.industreport.pages.report_page.viewModel.daily.ShowDailyReportsViewModel
 import com.hbazai.industreport.pages.report_page.viewModel.permit.CreatePermitReportViewModel
@@ -139,6 +140,11 @@ class App : Application() {
             // Show User Info
             factory<ShowUserInfoRepository> { ImplShowUserInfoRepository(RemoteShowUserInfoDataSource(get())) }
             viewModel { ShowUserInfoViewModel(get()) }
+
+            // Comments
+            factory<CommentRepository> { ImplCommentRepository(RemoteCommentDataSource(get())) }
+            viewModel { CommentViewModel(get()) }
+            factory { AdapterComments() }
 
         }
 

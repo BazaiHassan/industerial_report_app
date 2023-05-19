@@ -105,7 +105,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_32sdp"
                     android:layout_margin="@dimen/_4sdp"
-                    android:background="@color/text_stroke"
+                    android:background="@drawable/bg_dash_btn"
                     android:hint="عنوان گزارش"
                     android:lines="1"
                     android:padding="@dimen/_4sdp"
@@ -116,7 +116,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_32sdp"
                     android:layout_margin="@dimen/_4sdp"
-                    android:background="@color/text_stroke"
+                    android:background="@drawable/bg_dash_btn"
                     android:hint="شماره واحد فرایندی"
                     android:lines="1"
                     android:padding="@dimen/_4sdp"
@@ -127,7 +127,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_32sdp"
                     android:layout_margin="@dimen/_4sdp"
-                    android:background="@color/text_stroke"
+                    android:background="@drawable/bg_dash_btn"
                     android:hint="نام تجهیز"
                     android:lines="1"
                     android:padding="@dimen/_4sdp"
@@ -138,27 +138,25 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_180sdp"
                     android:layout_margin="@dimen/_4sdp"
-                    android:background="@color/text_stroke"
+                    android:background="@drawable/bg_dash_btn"
                     android:gravity="top"
                     android:hint="توضیحات تکمیلی"
                     android:inputType="text|textMultiLine"
                     android:padding="@dimen/_4sdp"
                     android:textSize="@dimen/_16sdp" />
 
-                <ImageView
-                    android:layout_width="@dimen/_64sdp"
-                    android:layout_height="@dimen/_64sdp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_margin="@dimen/_4sdp"
-                    android:src="@drawable/ic_add_image" />
-
-                <TextView
+                <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:layout_margin="@dimen/_4sdp"
-                    android:layout_marginStart="@dimen/_8sdp"
-                    android:text="اضافه کردن عکس" />
+                    android:layout_marginTop="@dimen/_6sdp"
+                    android:background="@drawable/bg_dash_btn"
+                    android:drawableStart="@drawable/ic_add_image"
+                    android:drawablePadding="8dp"
+                    android:padding="8dp"
+                    android:text="اضافه کردن عکس"
+                    android:textColor="@color/google_blue"
+                    android:textSize="16sp" />
 
             </LinearLayout>
 

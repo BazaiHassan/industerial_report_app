@@ -105,7 +105,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_32sdp"
                     android:layout_margin="@dimen/_4sdp"
-                    android:background="@color/text_stroke"
+                    android:background="@drawable/bg_dash_btn"
                     android:hint="عنوان مجوزکار"
                     android:lines="1"
                     android:padding="@dimen/_4sdp"
@@ -116,7 +116,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_32sdp"
                     android:layout_margin="@dimen/_4sdp"
-                    android:background="@color/text_stroke"
+                    android:background="@drawable/bg_dash_btn"
                     android:hint="شماره مجوزکار"
                     android:lines="1"
                     android:padding="@dimen/_4sdp"
@@ -127,7 +127,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_32sdp"
                     android:layout_margin="@dimen/_4sdp"
-                    android:background="@color/text_stroke"
+                    android:background="@drawable/bg_dash_btn"
                     android:hint="شماره واحد فرایندی"
                     android:lines="1"
                     android:padding="@dimen/_4sdp"
@@ -138,7 +138,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_100sdp"
                     android:layout_margin="@dimen/_4sdp"
-                    android:background="@color/text_stroke"
+                    android:background="@drawable/bg_dash_btn"
                     android:gravity="top"
                     android:hint="شرح مجوز کار"
                     android:inputType="text|textMultiLine"
@@ -146,12 +146,12 @@
                     android:textSize="@dimen/_16sdp" />
 
                 <RadioGroup
-                    android:background="@drawable/bg_text"
-                    android:padding="@dimen/_4sdp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/bg_text"
                     android:gravity="center"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:padding="@dimen/_4sdp">
 
                     <RadioButton
                         android:id="@+id/permit_closed"
@@ -174,31 +174,47 @@
                         android:text="باطل شد" />
                 </RadioGroup>
 
-                <ImageView
+                <Button
                     android:id="@+id/img_upload_permit"
-                    android:layout_width="@dimen/_64sdp"
-                    android:layout_height="@dimen/_64sdp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:layout_margin="@dimen/_4sdp"
-                    android:src="@drawable/ic_add_image" />
+                    android:layout_marginTop="@dimen/_6sdp"
+                    android:background="@drawable/bg_dash_btn"
+                    android:drawableStart="@drawable/ic_add_image"
+                    android:drawablePadding="8dp"
+                    android:padding="8dp"
+                    android:text="اضافه کردن عکس"
+                    android:textColor="@color/google_blue"
+                    android:textSize="16sp" />
 
                 <Button
-                    android:visibility="gone"
                     android:id="@+id/btn_image_permit_upload"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_margin="@dimen/_4sdp"
                     android:layout_marginStart="@dimen/_8sdp"
-                    android:text="بارگذاری عکس" />
+                    android:text="بارگذاری عکس"
+                    android:visibility="gone" />
+
                 <ProgressBar
                     android:id="@+id/pb_upload_image_permit"
-                    android:visibility="gone"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:layout_gravity="center_horizontal"
                     android:layout_margin="@dimen/_4sdp"
                     android:layout_marginStart="@dimen/_8sdp"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/img_image_uploaded"
+                    android:layout_width="@dimen/_64sdp"
+                    android:layout_height="@dimen/_86sdp"
                     android:layout_gravity="center_horizontal"
-                    android:layout_width="@dimen/_20sdp"
-                    android:layout_height="@dimen/_20sdp"/>
+                    android:layout_marginTop="@dimen/_2sdp"
+                    android:scaleType="centerCrop"
+                    android:visibility="gone" />
 
             </LinearLayout>
 
@@ -211,18 +227,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="@drawable/bg_btn"
         android:layout_margin="@dimen/_8sdp"
+        android:background="@drawable/bg_btn"
         android:backgroundTint="@color/google_green"
         android:text="ارسال گزارش"
         android:textColor="@color/white" />
+
     <ProgressBar
         android:id="@+id/pb_submit_form"
-        android:visibility="gone"
-        android:layout_gravity="bottom|center"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center"
+        android:visibility="gone" />
 
 
 </FrameLayout>

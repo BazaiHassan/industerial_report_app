@@ -4,6 +4,9 @@ import com.google.gson.annotations.SerializedName
 
 data class RequestCreateRiskReport(
 
+	@field:SerializedName("report_type")
+	val reportType: String? = null,
+
 	@field:SerializedName("date")
 	val date: String? = null,
 

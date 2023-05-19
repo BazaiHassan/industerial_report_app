@@ -103,7 +103,8 @@ class DangerReportFragment : Fragment() {
                 time = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")).toString(),
                 title = etTitleRiskReport.text.toString(),
                 type = tvTypeRiskReport.text.toString(),
-                userId = etUserRiskReport.text.toString()
+                userId = etUserRiskReport.text.toString(),
+                reportType = "Risk"
             )
 
             createRiskReportViewModel.createRiskReport(riskReportBody)

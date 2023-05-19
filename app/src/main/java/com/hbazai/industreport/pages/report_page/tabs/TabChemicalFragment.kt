@@ -71,6 +71,7 @@ class TabChemicalFragment : Fragment() {
                         putExtra("unit",it.unit.toString())
                         putExtra("userId",it.userId.toString())
                         putExtra("type",it.type.toString())
+                        putExtra("reportToken",it.reportToken)
                     }
                     startActivity(intent)
                 }

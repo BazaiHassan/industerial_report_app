@@ -6,6 +6,7 @@ import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.provider.OpenableColumns
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -14,6 +15,7 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import com.bumptech.glide.Glide
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.hbazai.industreport.R
@@ -32,6 +34,7 @@ import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.File
 import java.io.FileInputStream
@@ -43,6 +46,7 @@ import java.time.format.DateTimeFormatter
 class PermitReportFragment : Fragment(), UploadRequestBody.UploadCallback {
 
     private lateinit var btnClose: ImageView
+    private lateinit var imgImageUploaded: ImageView
     private lateinit var btnSubmitPermitReport: Button
     private lateinit var etUnitPermitReport: EditText
     private lateinit var etDescriptionPermitReport: EditText
@@ -54,7 +58,7 @@ class PermitReportFragment : Fragment(), UploadRequestBody.UploadCallback {
     private lateinit var rbPermitClosed: RadioButton
     private lateinit var rbPermitContinued: RadioButton
     private lateinit var rbPermitExpired: RadioButton
-    private lateinit var imgUploadPermit: ImageView
+    private lateinit var imgUploadPermit: Button
     private lateinit var btnUploadReportImage: Button
 
     private lateinit var pbSubmitForm: ProgressBar
@@ -102,6 +106,7 @@ class PermitReportFragment : Fragment(), UploadRequestBody.UploadCallback {
         rbPermitContinued = view.findViewById(R.id.permit_continued)
         rbPermitExpired = view.findViewById(R.id.permit_expired)
         btnUploadReportImage = view.findViewById(R.id.btn_image_permit_upload)
+        imgImageUploaded = view.findViewById(R.id.img_image_uploaded)
 
         pbSubmitForm = view.findViewById(R.id.pb_submit_form)
         pbUploadImagePermit = view.findViewById(R.id.pb_upload_image_permit)
@@ -116,11 +121,12 @@ class PermitReportFragment : Fragment(), UploadRequestBody.UploadCallback {
         val token = sharedPrefs.getString("token", "")
         val sendToken = SendToken(token)
         showUserInfoViewModel.showUserInfo(sendToken)
-        showUserInfoViewModel.showUserInfoLiveData.observe(viewLifecycleOwner){
-            if (it != null){
+        showUserInfoViewModel.showUserInfoLiveData.observe(viewLifecycleOwner) {
+            if (it != null) {
                 etUserPermitReport.text = "${it.firstName} ${it.lastName}"
-            }else{
-                Toast.makeText(requireContext(),"اشکال در دریافت اطلاعات",Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(requireContext(), "اشکال در دریافت اطلاعات", Toast.LENGTH_SHORT)
+                    .show()
             }
         }
 
@@ -137,8 +143,27 @@ class PermitReportFragment : Fragment(), UploadRequestBody.UploadCallback {
                         // Check if all permissions are granted
                         if (report?.areAllPermissionsGranted() == true) {
                             // Permissions are granted, do something here
+                            ImagePicker.with(requireActivity())
+                                .crop()
+                                .galleryMimeTypes(  //Exclude gif images
+                                    mimeTypes = arrayOf(
+                                        "image/png",
+                                        "image/jpg",
+                                        "image/jpeg"
+                                    )
+                                )
+                                .compress(1024)
+                                .maxResultSize(1080, 1080)
+                                .createIntent { intent ->
+                                    startForProfileImageResult.launch(intent)
+                                }
                         } else {
                             // Permissions are not granted, handle the case here
+                            Toast.makeText(
+                                requireContext(),
+                                "مجوز دسترسی را باید تایید کنید",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
                     }
 
@@ -151,21 +176,6 @@ class PermitReportFragment : Fragment(), UploadRequestBody.UploadCallback {
                     }
                 })
                 .check()
-
-            ImagePicker.with(requireActivity())
-                .crop()
-                .galleryMimeTypes(  //Exclude gif images
-                    mimeTypes = arrayOf(
-                        "image/png",
-                        "image/jpg",
-                        "image/jpeg"
-                    )
-                )
-                .compress(1024)
-                .maxResultSize(1080, 1080)
-                .createIntent { intent ->
-                    startForProfileImageResult.launch(intent)
-                }
         }
 
 
@@ -180,6 +190,8 @@ class PermitReportFragment : Fragment(), UploadRequestBody.UploadCallback {
                         .show()
                     pbUploadImagePermit.visibility = View.GONE
                     imageLink = responseImage.link.toString()
+                    Glide.with(requireContext()).load(responseImage.link).into(imgImageUploaded)
+                    imgImageUploaded.visibility = View.VISIBLE
                 } else if (responseImage.status.toString() == "false") {
                     Toast.makeText(requireContext(), "اشکال در بارگذاری", Toast.LENGTH_SHORT)
                         .show()
@@ -230,7 +242,8 @@ class PermitReportFragment : Fragment(), UploadRequestBody.UploadCallback {
                 title = etTitlePermitReport.text.toString(),
                 type = tvTypePermitReport.text.toString(),
                 userId = etUserPermitReport.text.toString(),
-                status = permitStatus
+                status = permitStatus,
+                reportType = "Permit"
             )
 
             createPermitReportViewModel.createPermitReport(permitBody)
@@ -275,8 +288,7 @@ class PermitReportFragment : Fragment(), UploadRequestBody.UploadCallback {
             if (resultCode == Activity.RESULT_OK) {
                 //Image Uri will not be null for RESULT_OK
                 val imageUri = data?.data
-                selectedImageUri = data?.data
-                imgUploadPermit.setImageURI(imageUri)
+                selectedImageUri = imageUri
                 btnUploadReportImage.visibility = View.VISIBLE
 
             } else if (resultCode == ImagePicker.RESULT_ERROR) {
@@ -289,24 +301,22 @@ class PermitReportFragment : Fragment(), UploadRequestBody.UploadCallback {
 
     private fun uploadImage(context: Context) {
 
-        val file = File(getRealPathFromURI(context, selectedImageUri ?: return))
-        val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
-        val body = MultipartBody.Part.createFormData("image", file.name, requestFile)
+        val inputStream = context.contentResolver.openInputStream(selectedImageUri!!)
+        val fileName = getFileName(context, selectedImageUri!!)
+        val requestBody = inputStream?.use { stream ->
+            stream.readBytes().toRequestBody("image/*".toMediaTypeOrNull())
+        }
 
+        val body = MultipartBody.Part.createFormData("image", fileName, requestBody!!)
         pbUploadImagePermit.progress = 0
+
         uploadReportImageViewModel.uploadReportImage(body)
+
     }
 
-    private fun getRealPathFromURI(context: Context, uri: Uri): String {
-        val projection = arrayOf(MediaStore.Images.Media.DATA)
-        val cursor = context.contentResolver.query(uri, projection, null, null, null)
-        cursor?.use {
-            if (it.moveToFirst()) {
-                val columnIndex = it.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
-                return it.getString(columnIndex)
-            }
-        }
-        return ""
+    private fun getFileName(context: Context, uri: Uri): String? {
+        val file = File(uri.path!!)
+        return file.name
     }
 
 
