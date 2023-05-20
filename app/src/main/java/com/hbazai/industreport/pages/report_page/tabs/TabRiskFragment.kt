@@ -73,6 +73,7 @@ class TabRiskFragment : Fragment() {
                         putExtra("userId",it.userId.toString())
                         putExtra("type",it.type.toString())
                         putExtra("reportToken",it.reportToken)
+                        putExtra("reportType",it.reportType)
                     }
                     startActivity(intent)
                 }

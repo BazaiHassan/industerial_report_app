@@ -2,6 +2,7 @@ package com.hbazai.industreport.api
 
 import com.hbazai.industreport.pages.notify_page.dataModel.RequestCreateNotification
 import com.hbazai.industreport.pages.notify_page.dataModel.ResponseShowNotificationItem
+import com.hbazai.industreport.pages.report_page.dataModel.RequestDeleteReport
 import com.hbazai.industreport.pages.report_page.dataModel.daily.RequestCreateDailyReport
 import com.hbazai.industreport.pages.report_page.dataModel.ResponseCreateReport
 import com.hbazai.industreport.pages.report_page.dataModel.ResponseUploadImage
@@ -110,6 +111,10 @@ interface ApiService {
     // Show Comments (Here the token of the report will be sent to server)
     @POST("reports/show_comments.php")
     fun showComments(@Body sendToken: SendReportToken):Single<List<ResponseComments>>
+
+    // Delete Report
+    @POST("reports/delete_report.php")
+    fun deleteReport(@Body requestDeleteReport: RequestDeleteReport):Single<ResponseCreateReport>
 
 
 

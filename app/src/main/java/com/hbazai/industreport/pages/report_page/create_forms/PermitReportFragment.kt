@@ -24,6 +24,7 @@ import com.hbazai.industreport.pages.report_page.dataModel.permit.RequestCreateP
 import com.hbazai.industreport.pages.report_page.viewModel.UploadReportImageViewModel
 import com.hbazai.industreport.pages.report_page.viewModel.permit.CreatePermitReportViewModel
 import com.hbazai.industreport.pages.user_page.auth.viewModel.ShowUserInfoViewModel
+import com.hbazai.industreport.utils.EditTextValidator
 import com.hbazai.industreport.utils.SendToken
 import com.hbazai.industreport.utils.UploadRequestBody
 import com.karumi.dexter.Dexter
@@ -228,33 +229,47 @@ class PermitReportFragment : Fragment() {
 
         btnSubmitPermitReport.setOnClickListener {
 
-            btnSubmitPermitReport.visibility = View.GONE
-            pbSubmitForm.visibility = View.VISIBLE
-
-            val permitBody = RequestCreatePermitReport(
-                date = LocalDate.now().toString(),
-                image = imageLink,
-                unit = etUnitPermitReport.text.toString(),
-                description = etDescriptionPermitReport.text.toString(),
-                instrumentTag = etPermitNumberReport.text.toString(),
-                userToken = token,
-                time = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")).toString(),
-                title = etTitlePermitReport.text.toString(),
-                type = tvTypePermitReport.text.toString(),
-                userId = etUserPermitReport.text.toString(),
-                status = permitStatus,
-                reportType = "Permit"
+            val validator = EditTextValidator(
+                etDescriptionPermitReport,
+                etPermitNumberReport,
+                etTitlePermitReport,
+                etUnitPermitReport
             )
 
-            createPermitReportViewModel.createPermitReport(permitBody)
+            val isValid = validator.validate()
 
-            createPermitReportViewModel.createPermitReportLiveData.observe(viewLifecycleOwner) {
-                if (it != null) {
-                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
-                    pbSubmitForm.visibility = View.GONE
-                    btnSubmitPermitReport.visibility = View.VISIBLE
+            if (isValid) {
+                btnSubmitPermitReport.visibility = View.GONE
+                pbSubmitForm.visibility = View.VISIBLE
+
+                val permitBody = RequestCreatePermitReport(
+                    date = LocalDate.now().toString(),
+                    image = imageLink,
+                    unit = etUnitPermitReport.text.toString(),
+                    description = etDescriptionPermitReport.text.toString(),
+                    instrumentTag = etPermitNumberReport.text.toString(),
+                    userToken = token,
+                    time = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"))
+                        .toString(),
+                    title = etTitlePermitReport.text.toString(),
+                    type = tvTypePermitReport.text.toString(),
+                    userId = etUserPermitReport.text.toString(),
+                    status = permitStatus,
+                    reportType = "Permit"
+                )
+
+                createPermitReportViewModel.createPermitReport(permitBody)
+
+                createPermitReportViewModel.createPermitReportLiveData.observe(viewLifecycleOwner) {
+                    if (it != null) {
+                        Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+                        pbSubmitForm.visibility = View.GONE
+                        btnSubmitPermitReport.visibility = View.VISIBLE
+                    }
                 }
             }
+
+
         }
 
 
@@ -290,7 +305,7 @@ class PermitReportFragment : Fragment() {
                 val imageUri = data?.data
                 selectedImageUri = imageUri
                 btnUploadReportImage.visibility = View.VISIBLE
-
+                btnUploadReportImage.text = "آماده بارکذاری"
             } else if (resultCode == ImagePicker.RESULT_ERROR) {
                 Toast.makeText(requireContext(), ImagePicker.getError(data), Toast.LENGTH_SHORT)
                     .show()

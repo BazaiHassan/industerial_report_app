@@ -74,6 +74,7 @@ class TabPermitFragment : Fragment() {
                         putExtra("userId",it.userId.toString())
                         putExtra("type",it.type.toString())
                         putExtra("reportToken",it.reportToken)
+                        putExtra("reportType",it.reportType.toString())
                     }
                     startActivity(intent)
                 }

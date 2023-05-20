@@ -13,6 +13,7 @@ import com.hbazai.industreport.pages.notify_page.repository.ImplShowNotification
 import com.hbazai.industreport.pages.notify_page.repository.ShowNotificationRepository
 import com.hbazai.industreport.pages.notify_page.viewModel.ShowNotificationViewModel
 import com.hbazai.industreport.pages.report_page.adapter.*
+import com.hbazai.industreport.pages.report_page.dataSource.RemoteDeleteReportDataSource
 import com.hbazai.industreport.pages.report_page.dataSource.RemoteUploadReportImageDataSource
 import com.hbazai.industreport.pages.report_page.dataSource.chemical.RemoteCreateChemicalReportDataSource
 import com.hbazai.industreport.pages.report_page.dataSource.chemical.RemoteShowChemicalReportsDataSource
@@ -23,6 +24,8 @@ import com.hbazai.industreport.pages.report_page.dataSource.permit.RemoteCreateP
 import com.hbazai.industreport.pages.report_page.dataSource.permit.RemoteShowPermitReportsDataSource
 import com.hbazai.industreport.pages.report_page.dataSource.risk.RemoteCreateRiskReportDataSource
 import com.hbazai.industreport.pages.report_page.dataSource.risk.RemoteShowRiskReportsDataSource
+import com.hbazai.industreport.pages.report_page.repository.DeleteReportRepository
+import com.hbazai.industreport.pages.report_page.repository.ImplDeleteReportRepository
 import com.hbazai.industreport.pages.report_page.repository.ImplUploadReportImageRepository
 import com.hbazai.industreport.pages.report_page.repository.UploadReportImageRepository
 import com.hbazai.industreport.pages.report_page.repository.chemical.CreateChemicalReportRepository
@@ -43,6 +46,7 @@ import com.hbazai.industreport.pages.report_page.repository.risk.CreateRiskRepor
 import com.hbazai.industreport.pages.report_page.repository.risk.ImplCreateRiskReportRepository
 import com.hbazai.industreport.pages.report_page.repository.risk.ImplShowRiskReportsRepository
 import com.hbazai.industreport.pages.report_page.repository.risk.ShowRiskReportsRepository
+import com.hbazai.industreport.pages.report_page.viewModel.DeleteReportViewModel
 import com.hbazai.industreport.pages.report_page.viewModel.UploadReportImageViewModel
 import com.hbazai.industreport.pages.report_page.viewModel.chemical.CreateChemicalReportViewModel
 import com.hbazai.industreport.pages.report_page.viewModel.chemical.ShowChemicalReportsViewModel
@@ -145,6 +149,10 @@ class App : Application() {
             factory<CommentRepository> { ImplCommentRepository(RemoteCommentDataSource(get())) }
             viewModel { CommentViewModel(get()) }
             factory { AdapterComments() }
+
+            // Delete Report
+            factory<DeleteReportRepository> { ImplDeleteReportRepository(RemoteDeleteReportDataSource(get())) }
+            viewModel { DeleteReportViewModel(get()) }
 
         }
 

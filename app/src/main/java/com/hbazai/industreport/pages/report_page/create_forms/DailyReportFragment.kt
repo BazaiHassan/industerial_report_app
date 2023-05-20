@@ -26,6 +26,7 @@ import com.hbazai.industreport.pages.report_page.dataModel.daily.RequestCreateDa
 import com.hbazai.industreport.pages.report_page.viewModel.UploadReportImageViewModel
 import com.hbazai.industreport.pages.report_page.viewModel.daily.CreateDailyReportViewModel
 import com.hbazai.industreport.pages.user_page.auth.viewModel.ShowUserInfoViewModel
+import com.hbazai.industreport.utils.EditTextValidator
 import com.hbazai.industreport.utils.SendToken
 import com.hbazai.industreport.utils.UploadRequestBody
 import com.karumi.dexter.Dexter
@@ -201,32 +202,45 @@ class DailyReportFragment : Fragment() {
 
         btnSubmitDailyReport.setOnClickListener {
 
-            btnSubmitDailyReport.visibility = View.GONE
-            pbSubmitReport.visibility = View.VISIBLE
-
-            val dailyReportBody = RequestCreateDailyReport(
-                date = LocalDate.now().toString(),
-                image = "Link to image",
-                unit = etUnitDailyReport.text.toString(),
-                description = etDescriptionDailyReport.text.toString(),
-                instrumentTag = etInstrumentDailyReport.text.toString(),
-                userToken = token,
-                time = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")).toString(),
-                title = etTitleDailyReport.text.toString(),
-                type = tvTypeDailyReport.text.toString(),
-                userId = etUserDailyReport.text.toString(),
-                reportType = "Daily"
+            val validator = EditTextValidator(
+                etTitleDailyReport,
+                etInstrumentDailyReport,
+                etUnitDailyReport,
+                etDescriptionDailyReport
             )
 
-            createDailyReportViewModel.createDailyReport(dailyReportBody)
+            val isValid = validator.validate()
 
-            createDailyReportViewModel.createReportLiveData.observe(viewLifecycleOwner){
-                if (it != null){
-                    Toast.makeText(requireContext(),it.message,Toast.LENGTH_SHORT).show()
-                    btnSubmitDailyReport.visibility = View.VISIBLE
-                    pbSubmitReport.visibility = View.GONE
+            if (isValid){
+                btnSubmitDailyReport.visibility = View.GONE
+                pbSubmitReport.visibility = View.VISIBLE
+
+                val dailyReportBody = RequestCreateDailyReport(
+                    date = LocalDate.now().toString(),
+                    image = imageLink,
+                    unit = etUnitDailyReport.text.toString(),
+                    description = etDescriptionDailyReport.text.toString(),
+                    instrumentTag = etInstrumentDailyReport.text.toString(),
+                    userToken = token,
+                    time = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")).toString(),
+                    title = etTitleDailyReport.text.toString(),
+                    type = tvTypeDailyReport.text.toString(),
+                    userId = etUserDailyReport.text.toString(),
+                    reportType = "Daily"
+                )
+
+                createDailyReportViewModel.createDailyReport(dailyReportBody)
+
+                createDailyReportViewModel.createReportLiveData.observe(viewLifecycleOwner){
+                    if (it != null){
+                        Toast.makeText(requireContext(),it.message,Toast.LENGTH_SHORT).show()
+                        btnSubmitDailyReport.visibility = View.VISIBLE
+                        pbSubmitReport.visibility = View.GONE
+                    }
                 }
             }
+
+
         }
 
     }
@@ -247,7 +261,7 @@ class DailyReportFragment : Fragment() {
                 val imageUri = data?.data
                 selectedImageUri = imageUri
                 btnUploadReportImage.visibility = View.VISIBLE
-
+                btnUploadImage.text = "آماده بارکذاری"
             } else if (resultCode == ImagePicker.RESULT_ERROR) {
                 Toast.makeText(requireContext(), ImagePicker.getError(data), Toast.LENGTH_SHORT)
                     .show()

@@ -21,6 +21,7 @@ import com.hbazai.industreport.pages.report_page.dataModel.risk.RequestCreateRis
 import com.hbazai.industreport.pages.report_page.viewModel.UploadReportImageViewModel
 import com.hbazai.industreport.pages.report_page.viewModel.risk.CreateRiskReportViewModel
 import com.hbazai.industreport.pages.user_page.auth.viewModel.ShowUserInfoViewModel
+import com.hbazai.industreport.utils.EditTextValidator
 import com.hbazai.industreport.utils.SendToken
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
@@ -48,7 +49,7 @@ class DangerReportFragment : Fragment() {
     private lateinit var tvTypeRiskReport: TextView
     private lateinit var etUserRiskReport: TextView
     private lateinit var tvRiskDateTime: TextView
-    private lateinit var pbSubmitForm:ProgressBar
+    private lateinit var pbSubmitForm: ProgressBar
 
     private lateinit var imgImageUploaded: ImageView
     private lateinit var btnUploadImage: Button
@@ -58,7 +59,7 @@ class DangerReportFragment : Fragment() {
     private var imageLink: String = "No Link"
     private val uploadReportImageViewModel: UploadReportImageViewModel by viewModel()
 
-    private val createRiskReportViewModel:CreateRiskReportViewModel by viewModel()
+    private val createRiskReportViewModel: CreateRiskReportViewModel by viewModel()
     private val showUserInfoViewModel: ShowUserInfoViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -100,11 +101,12 @@ class DangerReportFragment : Fragment() {
         val token = sharedPrefs.getString("token", "")
         val sendToken = SendToken(token)
         showUserInfoViewModel.showUserInfo(sendToken)
-        showUserInfoViewModel.showUserInfoLiveData.observe(viewLifecycleOwner){
-            if (it != null){
+        showUserInfoViewModel.showUserInfoLiveData.observe(viewLifecycleOwner) {
+            if (it != null) {
                 etUserRiskReport.text = "${it.firstName} ${it.lastName}"
-            }else{
-                Toast.makeText(requireContext(),"اشکال در دریافت اطلاعات",Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(requireContext(), "اشکال در دریافت اطلاعات", Toast.LENGTH_SHORT)
+                    .show()
             }
         }
 
@@ -193,35 +195,47 @@ class DangerReportFragment : Fragment() {
 
         btnSubmitRiskReport.setOnClickListener {
 
-            btnSubmitRiskReport.visibility = View.GONE
-            pbSubmitForm.visibility = View.VISIBLE
-
-            val riskReportBody = RequestCreateRiskReport(
-                date = LocalDate.now().toString(),
-                image = "Link to image",
-                unit = etUnitRiskReport.text.toString(),
-                description = etDescriptionRiskReport.text.toString(),
-                instrumentTag = etInstrumentRiskReport.text.toString(),
-                userToken = token,
-                time = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")).toString(),
-                title = etTitleRiskReport.text.toString(),
-                type = tvTypeRiskReport.text.toString(),
-                userId = etUserRiskReport.text.toString(),
-                reportType = "Risk"
+            val validator = EditTextValidator(
+                etDescriptionRiskReport,
+                etInstrumentRiskReport,
+                etTitleRiskReport,
+                etUnitRiskReport
             )
 
-            createRiskReportViewModel.createRiskReport(riskReportBody)
+            val isValid = validator.validate()
 
-            createRiskReportViewModel.createRiskReportLiveData.observe(viewLifecycleOwner){
-                if (it != null){
-                    Toast.makeText(requireContext(),it.message, Toast.LENGTH_SHORT).show()
-                    btnSubmitRiskReport.visibility = View.VISIBLE
-                    pbSubmitForm.visibility = View.GONE
+            if (isValid) {
+                btnSubmitRiskReport.visibility = View.GONE
+                pbSubmitForm.visibility = View.VISIBLE
+
+                val riskReportBody = RequestCreateRiskReport(
+                    date = LocalDate.now().toString(),
+                    image = imageLink,
+                    unit = etUnitRiskReport.text.toString(),
+                    description = etDescriptionRiskReport.text.toString(),
+                    instrumentTag = etInstrumentRiskReport.text.toString(),
+                    userToken = token,
+                    time = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"))
+                        .toString(),
+                    title = etTitleRiskReport.text.toString(),
+                    type = tvTypeRiskReport.text.toString(),
+                    userId = etUserRiskReport.text.toString(),
+                    reportType = "Risk"
+                )
+
+                createRiskReportViewModel.createRiskReport(riskReportBody)
+
+                createRiskReportViewModel.createRiskReportLiveData.observe(viewLifecycleOwner) {
+                    if (it != null) {
+                        Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+                        btnSubmitRiskReport.visibility = View.VISIBLE
+                        pbSubmitForm.visibility = View.GONE
+                    }
                 }
             }
+
+
         }
-
-
 
 
     }
@@ -242,7 +256,7 @@ class DangerReportFragment : Fragment() {
                 val imageUri = data?.data
                 selectedImageUri = imageUri
                 btnUploadReportImage.visibility = View.VISIBLE
-
+                btnUploadImage.text = "آماده بارکذاری"
             } else if (resultCode == ImagePicker.RESULT_ERROR) {
                 Toast.makeText(requireContext(), ImagePicker.getError(data), Toast.LENGTH_SHORT)
                     .show()

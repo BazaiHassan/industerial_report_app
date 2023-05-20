@@ -22,6 +22,7 @@ import com.hbazai.industreport.pages.report_page.dataModel.chemical.RequestCreat
 import com.hbazai.industreport.pages.report_page.viewModel.UploadReportImageViewModel
 import com.hbazai.industreport.pages.report_page.viewModel.chemical.CreateChemicalReportViewModel
 import com.hbazai.industreport.pages.user_page.auth.viewModel.ShowUserInfoViewModel
+import com.hbazai.industreport.utils.EditTextValidator
 import com.hbazai.industreport.utils.SendToken
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
@@ -58,10 +59,10 @@ class ChemicalReportFragment : Fragment() {
     private var imageLink: String = "No Link"
     private val uploadReportImageViewModel: UploadReportImageViewModel by viewModel()
 
-    private lateinit var pbSubmitReport:ProgressBar
+    private lateinit var pbSubmitReport: ProgressBar
 
-    private val createChemicalReportViewModel:CreateChemicalReportViewModel by viewModel()
-    private val showUserInfoViewModel:ShowUserInfoViewModel by viewModel()
+    private val createChemicalReportViewModel: CreateChemicalReportViewModel by viewModel()
+    private val showUserInfoViewModel: ShowUserInfoViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -101,11 +102,12 @@ class ChemicalReportFragment : Fragment() {
         val token = sharedPrefs.getString("token", "")
         val sendToken = SendToken(token)
         showUserInfoViewModel.showUserInfo(sendToken)
-        showUserInfoViewModel.showUserInfoLiveData.observe(viewLifecycleOwner){
-            if (it != null){
+        showUserInfoViewModel.showUserInfoLiveData.observe(viewLifecycleOwner) {
+            if (it != null) {
                 etUserChemicalReport.text = "${it.firstName} ${it.lastName}"
-            }else{
-                Toast.makeText(requireContext(),"اشکال در دریافت اطلاعات",Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(requireContext(), "اشکال در دریافت اطلاعات", Toast.LENGTH_SHORT)
+                    .show()
             }
         }
 
@@ -187,33 +189,41 @@ class ChemicalReportFragment : Fragment() {
         }
 
         btnSubmitChemicalReport.setOnClickListener {
-
-            btnSubmitChemicalReport.visibility = View.GONE
-            pbSubmitReport.visibility = View.VISIBLE
-
-            val chemicalReportBody = RequestCreateChemicalReport(
-                date = LocalDate.now().toString(),
-                image = "Link to image",
-                unit = etUnitChemicalReport.text.toString(),
-                description = etDescriptionChemicalReport.text.toString(),
-                materialName = etMaterialChemicalReport.text.toString(),
-                userToken = token,
-                time = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")).toString(),
-                title = etTitleChemicalReport.text.toString(),
-                type = tvTypeChemicalReport.text.toString(),
-                userId = etUserChemicalReport.text.toString(),
-                reportType = "Chemical"
+            val validator = EditTextValidator(
+                etMaterialChemicalReport,
+                etTitleChemicalReport,
+                etUnitChemicalReport,
+                etDescriptionChemicalReport
             )
+            val isValid = validator.validate()
 
-            createChemicalReportViewModel.createChemicalReport(chemicalReportBody)
+            if (isValid){
+                btnSubmitChemicalReport.visibility = View.GONE
+                pbSubmitReport.visibility = View.VISIBLE
+                val chemicalReportBody = RequestCreateChemicalReport(
+                    date = LocalDate.now().toString(),
+                    image = imageLink,
+                    unit = etUnitChemicalReport.text.toString(),
+                    description = etDescriptionChemicalReport.text.toString(),
+                    materialName = etMaterialChemicalReport.text.toString(),
+                    userToken = token,
+                    time = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")).toString(),
+                    title = etTitleChemicalReport.text.toString(),
+                    type = tvTypeChemicalReport.text.toString(),
+                    userId = etUserChemicalReport.text.toString(),
+                    reportType = "Chemical"
+                )
+                createChemicalReportViewModel.createChemicalReport(chemicalReportBody)
 
-            createChemicalReportViewModel.createChemicalReportLiveData.observe(viewLifecycleOwner){
-                if (it != null){
-                    Toast.makeText(requireContext(),it.message, Toast.LENGTH_SHORT).show()
-                    btnSubmitChemicalReport.visibility = View.VISIBLE
-                    pbSubmitReport.visibility = View.GONE
+                createChemicalReportViewModel.createChemicalReportLiveData.observe(viewLifecycleOwner) {
+                    if (it != null) {
+                        Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+                        btnSubmitChemicalReport.visibility = View.VISIBLE
+                        pbSubmitReport.visibility = View.GONE
+                    }
                 }
             }
+
         }
 
 
@@ -239,7 +249,7 @@ class ChemicalReportFragment : Fragment() {
                 val imageUri = data?.data
                 selectedImageUri = imageUri
                 btnUploadReportImage.visibility = View.VISIBLE
-
+                btnUploadImage.text = "آماده بارکذاری"
             } else if (resultCode == ImagePicker.RESULT_ERROR) {
                 Toast.makeText(requireContext(), ImagePicker.getError(data), Toast.LENGTH_SHORT)
                     .show()
