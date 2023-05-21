@@ -2,7 +2,7 @@ package com.hbazai.industreport.pages.report_page.dataModel
 
 import com.google.gson.annotations.SerializedName
 
-data class ResponseUploadImage(
+data class ResponseUpload(
 
 	@field:SerializedName("link")
 	val link: String? = null,

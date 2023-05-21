@@ -1,5 +1,6 @@
 package com.hbazai.industreport.pages.search_page
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textfield.TextInputEditText
 import com.hbazai.industreport.R
+import com.hbazai.industreport.pages.report_page.ShowDetailReportActivity
 import com.hbazai.industreport.pages.search_page.adapter.SearchReportAdapter
 import com.hbazai.industreport.pages.search_page.viewModel.SearchReportsViewModel
 import org.koin.android.ext.android.inject
@@ -58,27 +60,48 @@ class SearchFragment : Fragment() {
 
             override fun afterTextChanged(p0: Editable?) {
                 searchReportViewModel.searchReports(p0.toString(), "2000-01-01", "3000-01-01")
-                searchReportViewModel.searchReportsLiveDta.observe(viewLifecycleOwner) {
-                    if (it != null) {
-                        searchReportAdapter.differ.submitList(it)
+                searchReportViewModel.searchReportsLiveDta.observe(viewLifecycleOwner) { listOfSearchItems ->
+                    if (listOfSearchItems != null) {
+                        searchReportAdapter.differ.submitList(listOfSearchItems)
                         rvSearchReport.apply {
                             layoutManager =
                                 LinearLayoutManager(context, RecyclerView.VERTICAL, false)
                             adapter = searchReportAdapter
                         }
 
-                    } else {
-                        Toast.makeText(
-                            requireContext(),
-                            "اشکال در ارتباط با سرور",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
+                        searchReportAdapter.setOnItemClickListener {
+                            val intent =
+                                Intent(requireActivity(), ShowDetailReportActivity::class.java)
+                            intent.apply {
+                                putExtra("id",it.id.toString())
+                                putExtra("date", it.date.toString())
+                                putExtra("image", it.image.toString())
+                                putExtra("time", it.time.toString())
+                                putExtra("description", it.description.toString())
+                                putExtra("time", it.time.toString())
+                                putExtra("instrumentTag", it.instrumentTag.toString())
+                                putExtra("title", it.title.toString())
+                                putExtra("unit", it.unit.toString())
+                                putExtra("userId", it.userId.toString())
+                                putExtra("type", it.type.toString())
+                                putExtra("reportToken", it.reportToken.toString())
+                                putExtra("reportType", it.reportType.toString())
+                            }
+                            startActivity(intent)
+                        }
+
+                } else {
+                    Toast.makeText(
+                        requireContext(),
+                        "اشکال در ارتباط با سرور",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
+        }
 
-        })
+    })
 
-    }
+}
 
 }

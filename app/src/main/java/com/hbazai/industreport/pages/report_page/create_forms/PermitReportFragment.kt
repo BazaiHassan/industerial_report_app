@@ -192,6 +192,7 @@ class PermitReportFragment : Fragment() {
                     pbUploadImagePermit.visibility = View.GONE
                     imageLink = responseImage.link.toString()
                     Glide.with(requireContext()).load(responseImage.link).into(imgImageUploaded)
+                    btnUploadReportImage.visibility = View.GONE
                     imgImageUploaded.visibility = View.VISIBLE
                 } else if (responseImage.status.toString() == "false") {
                     Toast.makeText(requireContext(), "اشکال در بارگذاری", Toast.LENGTH_SHORT)
@@ -305,7 +306,7 @@ class PermitReportFragment : Fragment() {
                 val imageUri = data?.data
                 selectedImageUri = imageUri
                 btnUploadReportImage.visibility = View.VISIBLE
-                btnUploadReportImage.text = "آماده بارکذاری"
+                btnUploadReportImage.text = "آماده بارگذاری"
             } else if (resultCode == ImagePicker.RESULT_ERROR) {
                 Toast.makeText(requireContext(), ImagePicker.getError(data), Toast.LENGTH_SHORT)
                     .show()

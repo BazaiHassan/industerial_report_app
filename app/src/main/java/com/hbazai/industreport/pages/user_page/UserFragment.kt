@@ -16,6 +16,7 @@ import android.widget.Toast
 import com.hbazai.industreport.R
 import com.hbazai.industreport.pages.SplashActivity
 import com.hbazai.industreport.pages.user_page.auth.viewModel.ShowUserInfoViewModel
+import com.hbazai.industreport.pages.user_page.documents.DocumentsActivity
 import com.hbazai.industreport.utils.SendToken
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -27,6 +28,7 @@ class UserFragment : Fragment() {
     private lateinit var pbLoadProfile:ProgressBar
     private lateinit var svProfile:ScrollView
     private lateinit var btnExitProfile:LinearLayout
+    private lateinit var btnDocPage:RelativeLayout
 
     private val showUserInfoViewModel:ShowUserInfoViewModel by viewModel()
 
@@ -51,6 +53,9 @@ class UserFragment : Fragment() {
         pbLoadProfile = view.findViewById(R.id.pb_load_profile)
         svProfile = view.findViewById(R.id.sv_profile)
         btnExitProfile = view.findViewById(R.id.btn_exit_profile)
+        btnDocPage = view.findViewById(R.id.btn_doc_page)
+
+
         svProfile.visibility = View.GONE
         pbLoadProfile.visibility = View.VISIBLE
         // Get the shared preferences file
@@ -70,6 +75,10 @@ class UserFragment : Fragment() {
             }else{
                 Toast.makeText(requireContext(),"اشکال در دریافت اطلاعات",Toast.LENGTH_SHORT).show()
             }
+        }
+
+        btnDocPage.setOnClickListener{
+            startActivity(Intent(requireActivity(),DocumentsActivity::class.java))
         }
 
         btnExitProfile.setOnClickListener {

@@ -297,6 +297,7 @@
                     android:padding="@dimen/_2sdp">
 
                     <RelativeLayout
+                        android:id="@+id/btn_doc_page"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="@dimen/_4sdp">

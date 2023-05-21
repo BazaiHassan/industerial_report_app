@@ -2,12 +2,6 @@ package com.hbazai.industreport.pages.report_page.dataModel.daily
 
 import com.google.gson.annotations.SerializedName
 
-data class ResponseShowReports(
-
-	@field:SerializedName("ResponseShowReports")
-	val responseShowReports: List<ResponseShowReportsItem?>? = null
-)
-
 data class ResponseShowReportsItem(
 
 	@field:SerializedName("date")

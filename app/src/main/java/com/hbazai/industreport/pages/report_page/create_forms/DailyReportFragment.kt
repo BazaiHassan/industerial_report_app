@@ -177,6 +177,7 @@ class DailyReportFragment : Fragment() {
                     pbUploadImagePermit.visibility = View.GONE
                     imageLink = responseImage.link.toString()
                     Glide.with(requireContext()).load(responseImage.link).into(imgImageUploaded)
+                    btnUploadImage.visibility = View.GONE
                     imgImageUploaded.visibility = View.VISIBLE
                 } else if (responseImage.status.toString() == "false") {
                     Toast.makeText(requireContext(), "اشکال در بارگذاری", Toast.LENGTH_SHORT)
@@ -261,7 +262,7 @@ class DailyReportFragment : Fragment() {
                 val imageUri = data?.data
                 selectedImageUri = imageUri
                 btnUploadReportImage.visibility = View.VISIBLE
-                btnUploadImage.text = "آماده بارکذاری"
+                btnUploadImage.text = "آماده بارگذاری"
             } else if (resultCode == ImagePicker.RESULT_ERROR) {
                 Toast.makeText(requireContext(), ImagePicker.getError(data), Toast.LENGTH_SHORT)
                     .show()

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/_16sdp"
+    android:layoutDirection="rtl"
+    android:orientation="vertical">
+
+    <TextView
+        android:textSize="@dimen/_16sdp"
+        android:layout_gravity="center_horizontal"
+        android:text="فرم بارگذاری اسناد"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_4sdp" />
+
+    <EditText
+        android:id="@+id/et_title_doc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_8sdp"
+        android:layout_marginTop="@dimen/_16sdp"
+        android:background="@drawable/bg_stroke"
+        android:hint="عنوان سند"
+        android:padding="@dimen/_8sdp"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_16sdp" />
+
+    <EditText
+        android:id="@+id/et_unit_doc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_8sdp"
+        android:layout_marginTop="@dimen/_16sdp"
+        android:background="@drawable/bg_stroke"
+        android:hint="واحد مربوطه"
+        android:padding="@dimen/_8sdp"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_16sdp" />
+
+    <EditText
+        android:id="@+id/et_describe_doc"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_100sdp"
+        android:layout_margin="@dimen/_8sdp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/bg_stroke"
+        android:gravity="top"
+        android:hint="توضیحات سند"
+        android:inputType="text|textMultiLine"
+        android:padding="@dimen/_8sdp"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_16sdp" />
+
+    <Button
+        android:id="@+id/btn_upload_doc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/_6sdp"
+        android:background="@drawable/bg_stroke"
+        android:drawableStart="@drawable/ic_attachment"
+        android:drawableTint="@color/dark_gray"
+        android:drawablePadding="8dp"
+        android:padding="8dp"
+        android:text="اضافه کردن فایل"
+        android:textColor="@color/dark_gray"
+        android:textSize="16sp" />
+    <ProgressBar
+        android:id="@+id/pb_uploading_doc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:visibility="gone" />
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/tv_loading"
+        android:layout_gravity="center_horizontal"
+        android:text="در حال بارگذاری ..."
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+
+    <Button
+        android:id="@+id/btn_submit_doc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_btn"
+        android:layout_margin="@dimen/_20sdp"
+        android:text="ایجاد سند" />
+
+
+</LinearLayout>

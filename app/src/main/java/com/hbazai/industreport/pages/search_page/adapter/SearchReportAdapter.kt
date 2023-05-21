@@ -58,7 +58,7 @@ class SearchReportAdapter :
             user.text = report.userId
             date.text = report.date
 
-            setOnItemClickListener {
+            setOnClickListener {
                 onItemClickListener?.let {
                     it(report)
                 }
@@ -72,7 +72,7 @@ class SearchReportAdapter :
 
     private var onItemClickListener: ((ResponseSearch) -> Unit)? = null
 
-    private fun setOnItemClickListener(listener: (ResponseSearch) -> Unit) {
+     fun setOnItemClickListener(listener: (ResponseSearch) -> Unit) {
         onItemClickListener = listener
     }
 

@@ -71,6 +71,11 @@ import com.hbazai.industreport.pages.user_page.auth.repository.ShowUserInfoRepos
 import com.hbazai.industreport.pages.user_page.auth.viewModel.CheckPhoneViewModel
 import com.hbazai.industreport.pages.user_page.auth.viewModel.GetTokenViewModel
 import com.hbazai.industreport.pages.user_page.auth.viewModel.ShowUserInfoViewModel
+import com.hbazai.industreport.pages.user_page.documents.adapter.AdapterDocuments
+import com.hbazai.industreport.pages.user_page.documents.repository.ImplUploadDocRepository
+import com.hbazai.industreport.pages.user_page.documents.repository.UploadDocRepository
+import com.hbazai.industreport.pages.user_page.documents.source.RemoteUploadDocDataSource
+import com.hbazai.industreport.pages.user_page.documents.viewModel.UploadDocViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.startKoin
@@ -153,6 +158,11 @@ class App : Application() {
             // Delete Report
             factory<DeleteReportRepository> { ImplDeleteReportRepository(RemoteDeleteReportDataSource(get())) }
             viewModel { DeleteReportViewModel(get()) }
+
+            // Upload, Create, and Show Documents
+            factory<UploadDocRepository> { ImplUploadDocRepository(RemoteUploadDocDataSource(get())) }
+            viewModel { UploadDocViewModel(get()) }
+            factory { AdapterDocuments() }
 
         }
 

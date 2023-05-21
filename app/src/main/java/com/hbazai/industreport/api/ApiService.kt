@@ -5,7 +5,7 @@ import com.hbazai.industreport.pages.notify_page.dataModel.ResponseShowNotificat
 import com.hbazai.industreport.pages.report_page.dataModel.RequestDeleteReport
 import com.hbazai.industreport.pages.report_page.dataModel.daily.RequestCreateDailyReport
 import com.hbazai.industreport.pages.report_page.dataModel.ResponseCreateReport
-import com.hbazai.industreport.pages.report_page.dataModel.ResponseUploadImage
+import com.hbazai.industreport.pages.report_page.dataModel.ResponseUpload
 import com.hbazai.industreport.pages.report_page.dataModel.chemical.RequestCreateChemicalReport
 import com.hbazai.industreport.pages.report_page.dataModel.chemical.ResponseShowChemicalReportItem
 import com.hbazai.industreport.pages.report_page.dataModel.comments.CreateCommentModel
@@ -19,6 +19,8 @@ import com.hbazai.industreport.pages.search_page.dataModel.ResponseSearch
 import com.hbazai.industreport.pages.user_page.auth.dataModel.RequestPhoneNumber
 import com.hbazai.industreport.pages.user_page.auth.dataModel.ResponseSendOTP
 import com.hbazai.industreport.pages.user_page.auth.dataModel.ResponseUserInfo
+import com.hbazai.industreport.pages.user_page.documents.data.RequestUploadDocument
+import com.hbazai.industreport.pages.user_page.documents.data.ResponseShowDocs
 import com.hbazai.industreport.utils.Constants.Companion.BASE_URL
 import com.hbazai.industreport.utils.SendReportToken
 import com.hbazai.industreport.utils.SendToken
@@ -64,8 +66,7 @@ interface ApiService {
     @POST("reports/upload_report_image.php")
     fun uploadReportImage(
         @Part image: MultipartBody.Part,
-
-    ):Single<ResponseUploadImage>
+    ):Single<ResponseUpload>
 
     // Search Reports
     @GET("reports/search_report.php")
@@ -115,6 +116,22 @@ interface ApiService {
     // Delete Report
     @POST("reports/delete_report.php")
     fun deleteReport(@Body requestDeleteReport: RequestDeleteReport):Single<ResponseCreateReport>
+
+    // Upload Document
+    @Multipart
+    @POST("reports/upload_document.php")
+    fun uploadDocument(
+        @Part file: MultipartBody.Part,
+    ):Single<ResponseUpload>
+
+    // Create Document item
+    @POST("reports/create_doc_item.php")
+    fun createDocumentItem(@Body requestUploadDocument: RequestUploadDocument):Single<ResponseCreateReport>
+
+    // Show Documents List
+    @GET("reports/show_documents.php")
+    fun showDocs():Single<List<ResponseShowDocs>>
+
 
 
 

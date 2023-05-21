@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layoutDirection="rtl"
+    android:orientation="vertical"
+    tools:context=".pages.user_page.documents.DocumentsActivity">
+
+    <Button
+        android:id="@+id/btn_create_doc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="@dimen/_4sdp"
+        android:backgroundTint="@color/google_green"
+        android:padding="@dimen/_4sdp"
+        android:text="اضافه کردن سند جدید"
+        android:textColor="@color/white" />
+    <TextView
+        android:layout_margin="@dimen/_2sdp"
+        android:textAlignment="center"
+        android:padding="@dimen/_4sdp"
+        android:text="در این بخش می توانیداسناد مورد نیاز خود از قبیل نقشه ها - شرح فرایند ها و کلیه اسنادی که مورد نیاز در انجام هر چه بهتر کاراست را مطالعه کنید. اگر نیازمند سند خاصی هستید نیز می توانید آن را از بخش درخواست سند جدید  درخواست دهید."
+        android:background="@drawable/bg_dash_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <EditText
+        android:padding="@dimen/_4sdp"
+        android:background="@drawable/bg_stroke"
+        android:layout_margin="@dimen/_4sdp"
+        android:drawableTint="@color/dark_gray"
+        android:drawableStart="@drawable/ic_search"
+        android:hint="جستجو در اسناد"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_documents"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/_4sdp" />
+
+</LinearLayout>
