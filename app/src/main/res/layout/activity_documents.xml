@@ -21,9 +21,18 @@
         android:layout_margin="@dimen/_2sdp"
         android:textAlignment="center"
         android:padding="@dimen/_4sdp"
-        android:text="در این بخش می توانیداسناد مورد نیاز خود از قبیل نقشه ها - شرح فرایند ها و کلیه اسنادی که مورد نیاز در انجام هر چه بهتر کاراست را مطالعه کنید. اگر نیازمند سند خاصی هستید نیز می توانید آن را از بخش درخواست سند جدید  درخواست دهید."
+        android:text="@string/doc_page_describe"
         android:background="@drawable/bg_dash_btn"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:layout_margin="@dimen/_2sdp"
+        android:textAlignment="center"
+        android:padding="@dimen/_4sdp"
+        android:text="برای حذف سند، کافی است آنرا برای چند ثانیه نگه دارید"
+        android:background="@drawable/bg_dash_btn"
+        android:layout_width="match_parent"
+        android:textColor="@color/google_red"
         android:layout_height="wrap_content"/>
     <EditText
         android:padding="@dimen/_4sdp"

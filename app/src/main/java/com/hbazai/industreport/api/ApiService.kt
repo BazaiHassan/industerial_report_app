@@ -16,7 +16,11 @@ import com.hbazai.industreport.pages.report_page.dataModel.permit.ResponseShowPe
 import com.hbazai.industreport.pages.report_page.dataModel.risk.RequestCreateRiskReport
 import com.hbazai.industreport.pages.report_page.dataModel.risk.ResponseShowRiskReportItem
 import com.hbazai.industreport.pages.search_page.dataModel.ResponseSearch
+import com.hbazai.industreport.pages.user_page.auth.dataModel.RequestCheckInviteCode
+import com.hbazai.industreport.pages.user_page.auth.dataModel.RequestCreateGroup
 import com.hbazai.industreport.pages.user_page.auth.dataModel.RequestPhoneNumber
+import com.hbazai.industreport.pages.user_page.auth.dataModel.ResponseCheckInviteCode
+import com.hbazai.industreport.pages.user_page.auth.dataModel.ResponseCreateGroup
 import com.hbazai.industreport.pages.user_page.auth.dataModel.ResponseSendOTP
 import com.hbazai.industreport.pages.user_page.auth.dataModel.ResponseUserInfo
 import com.hbazai.industreport.pages.user_page.documents.data.RequestUploadDocument
@@ -132,7 +136,13 @@ interface ApiService {
     @GET("reports/show_documents.php")
     fun showDocs():Single<List<ResponseShowDocs>>
 
+    // Request Create Group
+    @POST("user/create_group.php")
+    fun createGroup(@Body requestCreateGroup: RequestCreateGroup):Single<ResponseCreateGroup>
 
+    // Check Invite Code
+    @POST("user/check_invite_code.php")
+    fun checkInviteCode(@Body requestCheckInviteCode: RequestCheckInviteCode):Single<ResponseCheckInviteCode>
 
 
 }

@@ -1,0 +1,23 @@
+<!-- res/layout/empty_state_layout.xml -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/lnr_empty"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <!-- Add your empty state UI elements here -->
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/empty_state"
+        android:contentDescription="@string/empty_state_image_description" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/empty_state_image_description"
+        android:textSize="16sp"
+        android:textColor="@color/dark_gray" />
+</LinearLayout>

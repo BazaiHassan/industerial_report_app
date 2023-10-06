@@ -68,7 +68,7 @@ import com.hbazai.industreport.pages.user_page.auth.repository.AuthRepository
 import com.hbazai.industreport.pages.user_page.auth.repository.ImplAuthRepository
 import com.hbazai.industreport.pages.user_page.auth.repository.ImplShowUserInfoRepository
 import com.hbazai.industreport.pages.user_page.auth.repository.ShowUserInfoRepository
-import com.hbazai.industreport.pages.user_page.auth.viewModel.CheckPhoneViewModel
+import com.hbazai.industreport.pages.user_page.auth.viewModel.AuthViewModel
 import com.hbazai.industreport.pages.user_page.auth.viewModel.GetTokenViewModel
 import com.hbazai.industreport.pages.user_page.auth.viewModel.ShowUserInfoViewModel
 import com.hbazai.industreport.pages.user_page.documents.adapter.AdapterDocuments
@@ -143,7 +143,7 @@ class App : Application() {
 
             // Auth User
             factory<AuthRepository> { ImplAuthRepository(RemoteAuthDataSource(get())) }
-            viewModel { CheckPhoneViewModel(get()) }
+            viewModel { AuthViewModel(get()) }
             viewModel { GetTokenViewModel(get()) }
 
             // Show User Info

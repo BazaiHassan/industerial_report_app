@@ -5,83 +5,95 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.ProgressBar
 import android.widget.Toast
 import com.hbazai.industreport.MainActivity
 import com.hbazai.industreport.R
+import com.hbazai.industreport.databinding.ActivityVerificationBinding
+import com.hbazai.industreport.pages.user_page.auth.dataModel.RequestCreateGroup
 import com.hbazai.industreport.pages.user_page.auth.dataModel.RequestPhoneNumber
+import com.hbazai.industreport.pages.user_page.auth.viewModel.AuthViewModel
 import com.hbazai.industreport.pages.user_page.auth.viewModel.GetTokenViewModel
+import com.hbazai.industreport.utils.EditTextValidator
+import com.hbazai.industreport.utils.SnackBarNotifier
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class VerificationActivity : AppCompatActivity() {
 
-    private lateinit var btnCheckCode: Button
-    private lateinit var etVerifyCode: EditText
-    private lateinit var pbCheckCode: ProgressBar
-    private lateinit var btnBackVerify:ImageView
-    private var codeServer:String? = null
-    private var phoneNumber:String? = null
-    private val getTokenViewModel: GetTokenViewModel by viewModel()
+    private lateinit var binding: ActivityVerificationBinding
+    private var codeServer: String? = null
+    private var phoneNumber: String? = null
+    private var userName: String? = null
+    private var email: String? = null
+    private var password: String? = null
+    private var groupDescription: String = "توضیحی وجود ندارد"
+
+    private val authViewModel:AuthViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_verification)
+        binding = ActivityVerificationBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        val snackBarNotifier = SnackBarNotifier(this,binding.root)
 
         val sharedPreferences = getSharedPreferences("myPrefs", Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
 
         codeServer = intent.getStringExtra("codeServer")
-        phoneNumber = intent.getStringExtra("phoneNumber")
+        phoneNumber = intent.getStringExtra("phone_number")
+        userName = intent.getStringExtra("username")
+        email = intent.getStringExtra("email")
+        password = intent.getStringExtra("password")
 
-        btnCheckCode = findViewById(R.id.btn_verify_code)
-        etVerifyCode = findViewById(R.id.et_verify_code)
-        pbCheckCode = findViewById(R.id.pb_verify_code)
-        btnBackVerify = findViewById(R.id.btn_back_verify)
+        binding.lnrGroupCreation.visibility = View.GONE
+        binding.lnrInviteCode.visibility = View.GONE
+        binding.lnrVerifyPhone.visibility = View.VISIBLE
 
-        btnBackVerify.setOnClickListener {
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
-            finish()
+
+        binding.btnVerifyCode.setOnClickListener {
+            if (binding.etVerifyCode.text.toString() == codeServer){
+                snackBarNotifier.showSuccess("شماره تلفن شما تایید شد، لطفا فیلدهای زیر را تکمیل نمایید")
+                binding.lnrVerifyPhone.visibility = View.GONE
+                binding.lnrGroupCreation.visibility = View.VISIBLE
+                binding.lnrInviteCode.visibility = View.GONE
+            }else{
+                snackBarNotifier.showError("کد وارد شده صحیح نمی باشد")
+            }
         }
 
-        btnCheckCode.setOnClickListener {
-            if (etVerifyCode.text.isEmpty()){
-                etVerifyCode.error = "شماره شمراه را وارد کنید"
-            }else{
-                btnCheckCode.visibility = View.GONE
-                pbCheckCode.visibility = View.VISIBLE
-                val requestPhoneNumber = RequestPhoneNumber(phoneNumber)
-                if (etVerifyCode.text.toString() == codeServer){
-                    getTokenViewModel.getToken(requestPhoneNumber)
-                    getTokenViewModel.getTokenLiveData.observe(this){
-                        if (it.status == "true"){
-                            // Save Token To Shared Pref
-                            editor.putString("token", it.message)
-                            editor.apply()
-
-                            val intent = Intent(this, MainActivity::class.java)
-                            startActivity(intent)
-                            finish()
-                        }else if(it.status == "false") {
-                            Toast.makeText(this,it.message, Toast.LENGTH_SHORT).show()
-                            btnCheckCode.visibility = View.VISIBLE
-                            pbCheckCode.visibility = View.GONE
-
-                        }else{
-                            Toast.makeText(this,"خطایی رخ داده است", Toast.LENGTH_SHORT).show()
-                            btnCheckCode.visibility = View.VISIBLE
-                            pbCheckCode.visibility = View.GONE
-                        }
-                    }
+        binding.btnGroupCreation.setOnClickListener {
+            binding.btnGroupCreation.isEnabled = false
+            val validationInput = EditTextValidator(binding.etGroupName)
+            if (!validationInput.validate()){
+                snackBarNotifier.showError("لطفا نام گروه را وارد کنید")
+            }
+            // Send request to server to create the group
+            val createGroupEntryInfo = RequestCreateGroup(
+                password = password,
+                groupName = binding.etGroupName.text.toString(),
+                position = "Admin",
+                email = email,
+                groupDescription = groupDescription,
+                username = userName,
+                phoneNumber = phoneNumber
+            )
+            authViewModel.createGroup(createGroupEntryInfo)
+            authViewModel.createGroupLiveData.observe(this){createGroupRes->
+                if (createGroupRes.status=="false"){
+                    snackBarNotifier.showError("خطا در ایجاد گروه")
+                    binding.btnGroupCreation.isEnabled = true
                 }else{
-                    btnCheckCode.visibility = View.VISIBLE
-                    pbCheckCode.visibility = View.GONE
-                    Toast.makeText(this,"کد وارد شده اشتباه می باشد", Toast.LENGTH_SHORT).show()
+                    binding.tvInviteCode.text = createGroupRes.groupInviteCode
+                    snackBarNotifier.showSuccess("گروه با موفقیت ایجاد شد")
+                    binding.lnrVerifyPhone.visibility = View.GONE
+                    binding.lnrGroupCreation.visibility = View.GONE
+                    binding.lnrInviteCode.visibility = View.VISIBLE
+
                 }
             }
+        }
+
+        binding.btnCopyInviteCode.setOnClickListener {
+
         }
 
     }

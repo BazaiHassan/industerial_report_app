@@ -1,67 +1,160 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".pages.user_page.auth.VerificationActivity">
 
-    <ImageView
-        android:id="@+id/btn_back_verify"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_12sdp"
-        android:layout_marginTop="@dimen/_12sdp"
-        android:src="@drawable/ic_back" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="@dimen/_120sdp"
-        android:layout_height="@dimen/_120sdp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="@dimen/_96sdp"
-        android:src="@drawable/login_image" />
 
-    <EditText
-        android:id="@+id/et_verify_code"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/_36sdp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="@dimen/_48sdp"
-        android:background="@drawable/bg_text"
-        android:ems="10"
-        android:hint="کد فعال سازی"
-        android:inputType="number"
-        android:maxLength="4"
-        android:textAlignment="center" />
-
-    <FrameLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal">
-
-        <Button
-            android:id="@+id/btn_verify_code"
+        <ImageView
+            android:id="@+id/img_logo_verify"
             android:layout_width="@dimen/_120sdp"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/_120sdp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/_36sdp"
-            android:background="@drawable/bg_btn"
-            android:backgroundTint="@color/google_green"
-            android:text="فعال سازی"
-            android:textColor="@color/white"
-            android:visibility="visible" />
+            android:layout_marginTop="@dimen/_96sdp"
+            android:src="@drawable/login_image" />
 
-        <ProgressBar
-            android:id="@+id/pb_verify_code"
-            style="?android:attr/progressBarStyle"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/lnr_verify_phone"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/_36sdp"
-            android:visibility="gone" />
-    </FrameLayout>
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/et_verify_code"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_36sdp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/_48sdp"
+                android:background="@drawable/bg_text"
+                android:ems="10"
+                android:hint="کد تایید"
+                android:inputType="number"
+                android:maxLength="4"
+                android:textAlignment="center" />
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal">
+
+                <Button
+                    android:id="@+id/btn_verify_code"
+                    android:clickable="true"
+                    android:layout_width="@dimen/_120sdp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/_36sdp"
+                    android:background="@drawable/bg_btn"
+                    android:backgroundTint="@color/google_green"
+                    android:text="فعال سازی"
+                    android:textColor="@color/white"
+                    android:visibility="visible" />
+
+                <ProgressBar
+                    android:id="@+id/pb_verify_code"
+                    style="?android:attr/progressBarStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/_36sdp"
+                    android:visibility="gone" />
+            </FrameLayout>
+        </LinearLayout>
 
 
-</LinearLayout>
+        <LinearLayout
+            android:id="@+id/lnr_group_creation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <EditText
+                android:id="@+id/et_group_name"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_36sdp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/_48sdp"
+                android:background="@drawable/bg_text"
+                android:ems="10"
+                android:hint="نام گروه"
+                android:inputType="text"
+                android:textAlignment="center" />
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal">
+
+                <Button
+                    android:id="@+id/btn_group_creation"
+                    android:layout_width="@dimen/_120sdp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/_36sdp"
+                    android:background="@drawable/bg_btn"
+                    android:backgroundTint="@color/google_green"
+                    android:text="ایجاد گروه"
+                    android:textColor="@color/white"
+                    android:visibility="visible" />
+
+                <ProgressBar
+                    android:id="@+id/pb_group_creation"
+                    style="?android:attr/progressBarStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/_36sdp"
+                    android:visibility="gone" />
+            </FrameLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/lnr_invite_code"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/google_green"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingStart="@dimen/_10sdp"
+            android:paddingEnd="@dimen/_10sdp">
+
+            <TextView
+                android:id="@+id/tv_invite_code"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_32sdp" />
+
+            <ImageView
+                android:id="@+id/btn_copy_invite_code"
+                android:layout_width="@dimen/_48sdp"
+                android:layout_height="@dimen/_48sdp"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:src="@drawable/ic_copy" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="این کد را فقط در اختیار کسانی بگذارید که مجوز پیوستن به گروه را دارند"
+                android:textAlignment="center"
+                android:textColor="@color/google_red"
+                android:textSize="@dimen/_16sdp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

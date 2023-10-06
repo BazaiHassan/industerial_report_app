@@ -44,7 +44,7 @@
             android:padding="@dimen/_4sdp"
             android:text="واحد"
             android:textColor="@color/dark_gray"
-            android:textSize="@dimen/_8sdp" />
+            android:textSize="@dimen/_14sdp" />
 
         <TextView
             android:id="@+id/tv_describe_doc"

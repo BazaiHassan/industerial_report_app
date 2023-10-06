@@ -2,4 +2,6 @@
     <string name="app_name">IndustReport</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="doc_page_describe">در این بخش می توانیداسناد مورد نیاز خود از قبیل نقشه ها - شرح فرایند ها و کلیه اسنادی که مورد نیاز در انجام هر چه بهتر کاراست را مطالعه کنید. اگر نیازمند سند خاصی هستید نیز می توانید آن را از بخش درخواست سند جدید درخواست دهید.</string>
+    <string name="empty_state_image_description">چیزی یافت نشد</string>
 </resources>
